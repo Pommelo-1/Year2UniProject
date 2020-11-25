@@ -20,54 +20,5 @@ namespace Assets.Scripts.Data
             Ticked = false;
             DateCreated = DateTime.Now;
         }
-
-        //// ItemName
-        ////public void SetItemName(string newItemName)
-        ////{
-        ////    if(newItemName != "")
-        ////    {
-        ////        ItemName = newItemName;
-        ////    }
-        ////    else
-        ////    {
-        ////        Debug.LogWarning("Trying to set up the name to nothing");
-        ////    }
-        ////}
-        ////public string GetItemName()
-        ////{
-        ////    return ItemName;
-        ////}
-
-        //// Desciption
-        //public void SetDesciption(string newDesciption)
-        //{
-        //    Desciption = newDesciption;
-        //}
-        //public string GetDescription()
-        //{
-        //    return Desciption;
-        //}
-
-        //// DateCreated
-        //public DateTime getDateCreated()
-        //{
-        //    return DateCreated;
-        //}
-
-        //public bool IsTicked()
-        //{
-        //    return Ticked;
-        //}
-
-        //public void SetTickedTrue()
-        //{
-        //    Ticked = true;
-        //}
-        //public void SetTickedFalse()
-        //{
-        //    Ticked = false;
-        //}
-
-
     }
 }
