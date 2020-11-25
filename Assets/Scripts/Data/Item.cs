@@ -6,6 +6,7 @@ namespace Assets.Scripts.Data
     /// <summary>
     /// Item is a class which is used to store information about the item
     /// </summary>
+    [Serializable]
     public class Item
     {
         public string ItemName { get; set; }
@@ -13,7 +14,7 @@ namespace Assets.Scripts.Data
         public bool Ticked { get; set; }
         public DateTime DateCreated { get; }
 
-        public Item(string itemName, string desciption = "")
+        public Item(string itemName, string desciption)
         {
             ItemName = itemName;
             Desciption = desciption;
