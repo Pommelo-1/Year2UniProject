@@ -10,16 +10,16 @@ namespace Assets.Scripts.Data
     public class Item
     {
         public string ItemName { get; set; }
-        public string Desciption { get; set; }
-        public bool Ticked { get; set; }
-        public DateTime DateCreated { get; }
+        public string ItemDesciption { get; set; }
+        public bool ItemTicked { get; set; }
+        public DateTime ItemDateCreated { get; }
 
         public Item(string itemName, string desciption)
         {
             ItemName = itemName;
-            Desciption = desciption;
-            Ticked = false;
-            DateCreated = DateTime.Now;
+            ItemDesciption = desciption;
+            ItemTicked = false;
+            ItemDateCreated = DateTime.Now;
         }
     }
 }
