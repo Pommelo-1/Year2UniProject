@@ -9,10 +9,33 @@ namespace Assets.Scripts.Data
     [Serializable]
     public class Item
     {
-        public string ItemName { get; set; }
-        public string ItemDesciption { get; set; }
-        public bool ItemTicked { get; set; }
+        public string ItemName 
+        { 
+            get{ return ItemName; }
+            set 
+            {
+                ItemName = value;
+                ItemLastEdited = DateTime.Now;
+            }
+        }
+        public string ItemDesciption 
+        { get { return ItemDesciption; }
+            set 
+            {
+                ItemDesciption = value;
+                ItemLastEdited = DateTime.Now;
+            } 
+        }
+        public bool ItemTicked 
+        { get { return ItemTicked; }
+            set 
+            {
+                ItemTicked = value;
+                ItemLastEdited = DateTime.Now;
+            }
+        }
         public DateTime ItemDateCreated { get; }
+        public DateTime ItemLastEdited { get; private set; }
 
         public Item(string itemName, string desciption)
         {
@@ -20,6 +43,7 @@ namespace Assets.Scripts.Data
             ItemDesciption = desciption;
             ItemTicked = false;
             ItemDateCreated = DateTime.Now;
+            ItemLastEdited = ItemDateCreated;
         }
     }
 }
