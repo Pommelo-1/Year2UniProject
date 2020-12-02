@@ -10,25 +10,31 @@ namespace Assets.Scripts.Data
 {
     class PrefabList : IPrefabList
     {
+        // Prefab List Name
+        private string prefabListName;
         public string PrefabListName
         {
-            get { return PrefabListName; }
+            get { return prefabListName; }
             set
             {
-                PrefabListName = value;
+                prefabListName = value;
                 PrefabListLastEdited = DateTime.Now;
             }
         }
+        // Prefab List Description
+        private string prefabListDescription;
         public string PrefabListDescription
         {
-            get { return PrefabListDescription; }
+            get { return prefabListDescription; }
             set
             {
-                PrefabListDescription = value;
+                prefabListDescription = value;
                 PrefabListLastEdited = DateTime.Now;
             }
         }
+        // List of Items
         private List<Item> Items = new List<Item>();
+        //Dates
         public DateTime PrefabListDateCreated { get; }
         public DateTime PrefabListLastEdited { get; private set; }
 
@@ -58,6 +64,10 @@ namespace Assets.Scripts.Data
         /// <returns></returns>
         public Item GetItem(string itemName)
         {
+            if(debug)
+            {
+                Debug.Log($"Getting item called {itemName}");
+            }
             return Items.Single(r => r.ItemName == itemName);
         }
 
@@ -67,13 +77,13 @@ namespace Assets.Scripts.Data
         /// <param name="itemName"></param>
         /// <param name="itemDescription"></param>
         /// <returns></returns>
-        public bool AddItem(string itemName, string itemDescription)
+        public bool AddItem(string itemName, string itemDescription = null)
         {
             bool exisits = false;
             bool emptystring = false;
 
             // Check if the name is not too short
-            if (itemName.Length == 1)
+            if (itemName == null || itemName.Length == 1)
             {
                 if (debug)
                 {

@@ -9,28 +9,34 @@ namespace Assets.Scripts.Data
     [Serializable]
     public class Item
     {
+        // Item Name
+        private string itemName;
         public string ItemName 
         { 
-            get{ return ItemName; }
+            get{ return itemName; }
             set 
             {
-                ItemName = value;
+                itemName = value;
                 ItemLastEdited = DateTime.Now;
             }
         }
+        // Item Description
+        private string itemDesciption;
         public string ItemDesciption 
-        { get { return ItemDesciption; }
+        { get { return itemDesciption; }
             set 
             {
-                ItemDesciption = value;
+                itemDesciption = value;
                 ItemLastEdited = DateTime.Now;
             } 
         }
+        // Item Ticked
+        private bool itemTicked;
         public bool ItemTicked 
-        { get { return ItemTicked; }
+        { get { return itemTicked; }
             set 
             {
-                ItemTicked = value;
+                itemTicked = value;
                 ItemLastEdited = DateTime.Now;
             }
         }
