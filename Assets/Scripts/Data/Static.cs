@@ -9,6 +9,13 @@ namespace Assets.Scripts.Data
         public static bool debug = true;
 
         // Colours
+        private static readonly Theme theme_0 = new Theme("testing_1",
+            new Color32(0, 0, 0, 0),
+            new Color32(0, 0, 0, 0),
+            new Color32(0, 0, 0, 0),
+            new Color32(0, 0, 0, 0),
+            new Color32(0, 0, 0, 0));
+
         // Used https://coolors.co/1282a2-ddf8e8-f06449-ff5d73-1b2021
         private static Color32 EerieBlack = new Color32(27, 32, 33, 255);
         private static Color32 FieryRose = new Color32(255, 93, 115, 255);
@@ -18,14 +25,9 @@ namespace Assets.Scripts.Data
 
         private static readonly Theme theme_1 = new Theme("Basic", EerieBlack, FieryRose, OrangeSoda, Honeydew, CGBlue);
 
-        private static readonly Theme theme_2 = new Theme("testing_1",
-            new Color32(0, 0, 0, 0),
-            new Color32(0, 0, 0, 0),
-            new Color32(0, 0, 0, 0),
-            new Color32(0, 0, 0, 0),
-            new Color32(0, 0, 0, 0));
 
-        public static List<Theme> themes = new List<Theme> { theme_1, theme_2 };
+
+        public static List<Theme> themes = new List<Theme> { theme_0, theme_1 };
 
     }
 }
