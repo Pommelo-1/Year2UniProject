@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Assets.Scripts.Interface;
 using UnityEngine;
 
 namespace Assets.Scripts.Data
 {
-    class PrefabList : IPrefabList
+    public class PrefabList : IPrefabList
     {
         // Prefab List Name
         private string prefabListName;

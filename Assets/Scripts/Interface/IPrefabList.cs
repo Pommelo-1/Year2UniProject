@@ -1,13 +1,9 @@
 ﻿using Assets.Scripts.Data;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assets.Scripts.Interface
 {
-    interface IPrefabList
+    public interface IPrefabList
     {
         List<Item> GetItems();
         Item GetItem(string itemName);
