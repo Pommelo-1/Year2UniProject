@@ -34,22 +34,10 @@ namespace Assets.Scripts.Managers
         {
             _prefabLists = prefabLists;
         }
-        public bool AddItemToPrefabList(string prefabListName, string itemName)
+        public void AddItemToPrefabList(string prefabListName, string itemName)
         {
-            var currentItems = _prefabLists.Find(s => s.PrefabListName == prefabListName).GetItems();
-
-            var item = currentItems.Find(n => n.ItemName == prefabListName);
-            if (item != null)
-            {
-                if (_debug)
-                {
-                    Debug.Log($"trying to add item that already exisits '{prefabListName}'");
-                }
-                return false;
-            }
-
+            //  TODO: Check if prefab list exisits ?
             _prefabLists.Find(s => s.PrefabListName == prefabListName).AddItem(itemName);
-            return true;
         }
 
         public bool AddPrefabList(PrefabList prefabList)
@@ -97,5 +85,9 @@ namespace Assets.Scripts.Managers
 
         }
 
+        public void ChangeItemNameInPrefabList(string prefabListName, string currentName, string newName)
+        {
+
+        }
     }
 }

@@ -62,7 +62,7 @@ namespace Assets.Scripts.Data
         /// <returns></returns>
         public Item GetItem(string itemName)
         {
-            if(debug)
+            if (debug)
             {
                 Debug.Log($"Getting item called {itemName}");
             }
@@ -75,56 +75,46 @@ namespace Assets.Scripts.Data
         /// <param name="itemName"></param>
         /// <param name="itemDescription"></param>
         /// <returns></returns>
-        public bool AddItem(string itemName, string itemDescription = null)
+        public void AddItem(string itemName, string itemDescription = null)
         {
-            bool exisits = false;
-            bool emptystring = false;
-
             // Check if the name is not too short
             if (itemName == null || itemName.Length == 1)
             {
                 if (debug)
                 {
-                    Debug.LogWarning("Habit name cannot be empty");
+                    Debug.LogWarning("item name cannot be empty");
                 }
 
                 SSTools.ShowMessage(msg: "Habit name empty",
                     position: SSTools.Position.bottom,
                     time: SSTools.Time.threeSecond);
-                emptystring = true;
+
+                return;
             }
 
             // If the name is not empty it will try create an item
-            if (!emptystring)
+            var item = Items.Find(n => n.ItemName == prefabListName);
+            if (item != null)
             {
-                // checks first if the item already 
-                foreach (Item item in Items)
+                if (debug)
                 {
-                    if (item.ItemName == itemName)
-                    {
-                        exisits = true;
-                        SSTools.ShowMessage(msg: "Item already exists",
-                            position: SSTools.Position.bottom,
-                            time: SSTools.Time.threeSecond);
-                        break;
-                    }
+                    Debug.LogWarning("Item already exists");
                 }
 
-                if (!exisits)
-                {
-                    if (debug)
-                    {
-                        Debug.Log($"Adding item called '{itemName}' to the list '{PrefabListName}'.");
-                    }
-                    Item temp_item = new Item(itemName, itemDescription);
-                    Items.Add(temp_item);
-                    PrefabListLastEdited = DateTime.Now;
+                SSTools.ShowMessage(msg: "Item already exists",
+                    position: SSTools.Position.bottom,
+                    time: SSTools.Time.threeSecond);
 
-                    return true;
-                }
+                return;
             }
 
-            return false;
+            if (debug)
+            {
+                Debug.Log($"Adding item called '{itemName}' to the list '{PrefabListName}'.");
+            }
+
+            Items.Add( new Item(itemName, itemDescription));
+            PrefabListLastEdited = DateTime.Now;
         }
 
         /// <summary>

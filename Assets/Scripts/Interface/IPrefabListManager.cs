@@ -12,6 +12,6 @@ namespace Assets.Scripts.Interface
         void DeletePrefabList(PrefabList prefabList);
         bool DeletePrefabList(string prefabListName);
         void UpdatePrefabList(PrefabList prefabList);
-        bool AddItemToPrefabList(string prefabListName, string itemName);
+        void AddItemToPrefabList(string prefabListName, string itemName);
     }
 }

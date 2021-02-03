@@ -34,9 +34,9 @@ public class MasterController : MonoBehaviour
 
         Debug.Log("current items in test1 are");
         var testItems = PrefabListManager.GetPrefabList("test1").GetItems();
-        foreach(var t in testItems)
+        foreach (var t in testItems)
         {
-        Debug.Log(t.ItemName);
+            Debug.Log(t.ItemName);
         }
     }
 
@@ -92,32 +92,17 @@ public class MasterController : MonoBehaviour
     }
 
     // PrefabList
-    public void AddItemToPrefabList(string PrefabListName, string itemName)
+    public void AddItemToPrefabList(string prefabListName, string itemName)
     {
-        bool emptystring = false;
-
-        if (itemName.Length == 1)
-        {
-            SSTools.ShowMessage(msg: "PrefabList empty name empty",
-                position: SSTools.Position.bottom,
-                time: SSTools.Time.threeSecond);
-
-            emptystring = true;
-        }
-        // TODO: Check if the list already not exisits
-
-        if (!emptystring)
-        {
-            PrefabListManager.AddItemToPrefabList(PrefabListName, itemName);
-        }
+        PrefabListManager.AddItemToPrefabList(prefabListName, itemName);
     }
 
-    public void DeleteItemFromPrefabList(string PrefabListName, string itemName)
+    public void DeleteItemFromPrefabList(string prefabListName, string itemName)
     {
 
     }
 
-    public void ChangeItemNameInPrefabList(string PrefabListName, string currentName, string newName)
+    public void ChangeItemNameInPrefabList(string prefabListName, string currentName, string newName)
     {
 
     }

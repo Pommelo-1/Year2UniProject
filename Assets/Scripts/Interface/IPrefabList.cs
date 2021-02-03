@@ -7,7 +7,7 @@ namespace Assets.Scripts.Interface
     {
         List<Item> GetItems();
         Item GetItem(string itemName);
-        bool AddItem(string itemName, string itemDescription);
+        void AddItem(string itemName, string itemDescription);
         void AddItems(List<Item> items);
         void DeleteItems();
         void DeleteItem(string itemName);
