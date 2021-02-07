@@ -8,10 +8,10 @@ namespace Assets.Scripts.Interface
         List<PrefabList> GetPrefabLists();
         PrefabList GetPrefabList(string prefabListName);
         void AddPrefabLists(List<PrefabList> prefabLists);
-        bool AddPrefabList(PrefabList prefabList);
-        void DeletePrefabList(PrefabList prefabList);
+        bool AddPrefabList(string prefabListName);
         bool DeletePrefabList(string prefabListName);
-        void UpdatePrefabList(PrefabList prefabList);
+        bool ChangePrefabListName(string currentName, string newName);
         bool AddItemToPrefabList(string prefabListName, string itemName);
+        bool DeleteItemPrefabList(string prefabListName, string itemName);
     }
 }
