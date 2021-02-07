@@ -34,16 +34,26 @@ namespace Assets.Scripts.Managers
         {
             _prefabLists = prefabLists;
         }
-        public void AddItemToPrefabList(string prefabListName, string itemName)
+        public bool AddItemToPrefabList(string prefabListName, string itemName)
         {
             //  TODO: Check if prefab list exisits ?
-            _prefabLists.Find(s => s.PrefabListName == prefabListName).AddItem(itemName);
+            return _prefabLists.Find(s => s.PrefabListName == prefabListName).AddItem(itemName);
         }
 
-        public bool AddPrefabList(PrefabList prefabList)
+        public bool AddPrefabList(string prefabListName)
         {
-            var item = _prefabLists.Find(n => n == prefabList);
+            if (prefabListName.Length == 1)
+            {
+                SSTools.ShowMessage(msg: "PrefabList empty name empty",
+                    position: SSTools.Position.bottom,
+                    time: SSTools.Time.threeSecond);
 
+                return false;
+            }
+
+            var prefabList = new PrefabList(prefabListName, _debug);
+
+            var item = _prefabLists.Find(n => n == prefabList);
             if (item != null)
             {
                 if (_debug)
@@ -62,11 +72,6 @@ namespace Assets.Scripts.Managers
             return true;
         }
 
-        public void DeletePrefabList(PrefabList prefabList)
-        {
-            _prefabLists.Remove(prefabList);
-        }
-
         public bool DeletePrefabList(string prefabListName)
         {
             var prefabList = _prefabLists.Find(s => s.PrefabListName == prefabListName);
@@ -76,18 +81,55 @@ namespace Assets.Scripts.Managers
                 return false;
             }
 
+            if(_debug)
+            {
+                Debug.Log($"Deleting prefabList called '{prefabListName}'");
+            }
+
             _prefabLists.Remove(prefabList);
             return true;
         }
 
-        public void UpdatePrefabList(PrefabList prefabList)
+        public bool ChangePrefabListName(string currentName, string newName)
         {
+            var prefabList = _prefabLists.Find(s => s.PrefabListName == currentName);
 
+            if (prefabList == null)
+            {
+                return false;
+            }
+
+            _prefabLists.Remove(prefabList);
+
+            prefabList.PrefabListName = newName;
+
+            _prefabLists.Add(prefabList);
+
+            return true;
         }
 
-        public void ChangeItemNameInPrefabList(string prefabListName, string currentName, string newName)
+        public bool ChangeItemNameInPrefabList(string prefabListName, string currentName, string newName)
         {
+            var prefabList = _prefabLists.Find(s => s.PrefabListName == prefabListName);
 
+            if (prefabList == null)
+            {
+                return false;
+            }
+
+            return _prefabLists.Find(s => s.PrefabListName == prefabListName).ChangeItemName(currentName, newName);
+        }
+
+        public bool DeleteItemPrefabList(string prefabListName, string itemName)
+        {
+            var prefabList = _prefabLists.Find(s => s.PrefabListName == prefabListName);
+
+            if (prefabList == null)
+            {
+                return false;
+            }
+
+            return _prefabLists.Find(s => s.PrefabListName == prefabListName).DeleteItem(itemName);
         }
     }
 }

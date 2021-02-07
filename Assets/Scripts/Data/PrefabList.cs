@@ -75,7 +75,7 @@ namespace Assets.Scripts.Data
         /// <param name="itemName"></param>
         /// <param name="itemDescription"></param>
         /// <returns></returns>
-        public void AddItem(string itemName, string itemDescription = null)
+        public bool AddItem(string itemName, string itemDescription = null)
         {
             // Check if the name is not too short
             if (itemName == null || itemName.Length == 1)
@@ -89,11 +89,11 @@ namespace Assets.Scripts.Data
                     position: SSTools.Position.bottom,
                     time: SSTools.Time.threeSecond);
 
-                return;
+                return false;
             }
 
             // If the name is not empty it will try create an item
-            var item = Items.Find(n => n.ItemName == prefabListName);
+            var item = Items.Find(n => n.ItemName == itemName);
             if (item != null)
             {
                 if (debug)
@@ -105,7 +105,7 @@ namespace Assets.Scripts.Data
                     position: SSTools.Position.bottom,
                     time: SSTools.Time.threeSecond);
 
-                return;
+                return false;
             }
 
             if (debug)
@@ -113,8 +113,24 @@ namespace Assets.Scripts.Data
                 Debug.Log($"Adding item called '{itemName}' to the list '{PrefabListName}'.");
             }
 
-            Items.Add( new Item(itemName, itemDescription));
+            Items.Add(new Item(itemName, itemDescription));
             PrefabListLastEdited = DateTime.Now;
+
+            return true;
+        }
+
+        public bool ChangeItemName(string currentName, string newName)
+        {
+            var item = Items.Find(n => n.ItemName == currentName);
+            if (item != null)
+            {
+                var description = item.ItemDesciption;
+                Items.Remove(item);
+                Items.Add(new Item(newName, description));
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -139,18 +155,18 @@ namespace Assets.Scripts.Data
         /// Used to delete one element from the PrefabList
         /// </summary>
         /// <param name="item"></param>
-        public void DeleteItem(string itemName)
+        public bool DeleteItem(string itemName)
         {
             var temp_item = Items.Single(r => r.ItemName == itemName);
             if (temp_item != null)
             {
                 PrefabListLastEdited = DateTime.Now;
                 Items.Remove(temp_item);
+                return true;
             }
-            else
-            {
-                Debug.LogWarning("Trying to delete itemt that doesn't exist");
-            }
+
+            Debug.LogWarning("Trying to delete itemt that doesn't exist");
+            return false;
         }
 
         /// <summary>

@@ -7,11 +7,12 @@ namespace Assets.Scripts.Interface
     {
         List<Item> GetItems();
         Item GetItem(string itemName);
-        void AddItem(string itemName, string itemDescription);
+        bool AddItem(string itemName, string itemDescription);
         void AddItems(List<Item> items);
         void DeleteItems();
-        void DeleteItem(string itemName);
+        bool DeleteItem(string itemName);
         void MarkItemTicked(string itemName);
         void MarkItemUnticked(string itemName);
+        bool ChangeItemName(string currentName, string newName);
     }
 }

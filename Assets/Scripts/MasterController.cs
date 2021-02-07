@@ -1,11 +1,20 @@
 ﻿using Assets.Scripts.Data;
 using Assets.Scripts.Interface;
 using Assets.Scripts.Managers;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MasterController : MonoBehaviour
 {
     private readonly bool _debug = Static.debug;
+
+    private List<GameObject> ui_elements = new List<GameObject>();
+
+
+    public GameObject HabitDropDown;
+    public GameObject MainPanel;
+
 
     // Managers
     PrefabListManager PrefabListManager = new PrefabListManager(Static.debug);
@@ -38,6 +47,20 @@ public class MasterController : MonoBehaviour
         {
             Debug.Log(t.ItemName);
         }
+
+        // Change name
+        ChangePrefabListName("test1", "test2");
+        var testPerfab = PrefabListManager.GetPrefabList("test2");
+
+        DeletePrefabList("test1");
+        DeletePrefabList("test2");
+
+        AddPrefabList("test3");
+
+        AddItemToPrefabList("test3", "item4");
+        ChangeItemNameInPrefabList("test3", "item4", "item5");
+
+        DeleteItemFromPrefabList("test3", "item5");
     }
 
     // Save Manager
@@ -52,59 +75,172 @@ public class MasterController : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Function used to add the prefabList to the PrefabManager by providing the name
-    /// </summary>
-    public void AddPrefabList(string prefabName)
-    {
-        bool emptystring = false;
-
-        if (prefabName.Length == 1)
-        {
-            SSTools.ShowMessage(msg: "PrefabList empty name empty",
-                position: SSTools.Position.bottom,
-                time: SSTools.Time.threeSecond);
-
-            emptystring = true;
-        }
-        // TODO: Check if the list already not exisits
-
-        if (!emptystring)
-        {
-            var prefabList = new PrefabList(prefabName, _debug);
-            var success = PrefabListManager.AddPrefabList(prefabList);
-
-            if (success)
-            {
-                SaveData();
-            }
-        }
-    }
-
-    public void DeletePrefabList(string prefabName)
-    {
-
-    }
-
-    public void ChangePrefabListName(string currentName, string newName)
+    public void DeleteData()
     {
 
     }
 
     // PrefabList
-    public void AddItemToPrefabList(string prefabListName, string itemName)
+    private void AddPrefabList(string prefabName)
     {
-        PrefabListManager.AddItemToPrefabList(prefabListName, itemName);
+        var success = PrefabListManager.AddPrefabList(prefabName);
+
+        if (success)
+        {
+            SaveData();
+        }
+
+        // TODO: Need to update UI
     }
 
-    public void DeleteItemFromPrefabList(string prefabListName, string itemName)
+    private void DeletePrefabList(string prefabName)
+    {
+        var success = PrefabListManager.DeletePrefabList(prefabName);
+
+        if (success)
+        {
+            SaveData();
+        }
+
+        // TODO: Need to update UI
+
+    }
+
+    private void ChangePrefabListName(string currentName, string newName)
+    {
+        var success = PrefabListManager.ChangePrefabListName(currentName, newName);
+
+        if (success)
+        {
+            SaveData();
+        }
+
+        // TODO: Need to update UI
+
+    }
+
+    private void AddItemToPrefabList(string prefabListName, string itemName)
+    {
+        var success = PrefabListManager.AddItemToPrefabList(prefabListName, itemName);
+
+        if (success)
+        {
+            SaveData();
+        }
+
+        // TODO: Need to update UI
+    }
+
+    private void DeleteItemFromPrefabList(string prefabListName, string itemName)
+    {
+        var success = PrefabListManager.DeleteItemPrefabList(prefabListName, itemName);
+
+        if (success)
+        {
+            SaveData();
+        }
+
+        // TODO: Need to update UI
+    }
+
+    private void ChangeItemNameInPrefabList(string prefabListName, string currentName, string newName)
+    {
+        var success = PrefabListManager.ChangeItemNameInPrefabList(prefabListName, currentName, newName);
+
+        if (success)
+        {
+            SaveData();
+        }
+
+        // TODO: Need to update UI
+    }
+
+    // UI
+    public void DeleteUiElements()
+    {
+        ui_elements.ForEach(child => Destroy(child));
+    }
+
+    public void ClearTextFromInputBox(GameObject gameObject)
+    {
+        gameObject.GetComponent<TMP_InputField>().text = "";
+    }
+
+    public void DisplayUi(string mode)
+    {
+        // Deletes the current UI if there is one
+        DeleteUiElements();
+
+        // TODO:
+    }
+
+    public void AddPrefabList(GameObject InputBox)
+    {
+        var PrefabListName = InputBox.GetComponent<TextMeshProUGUI>().text;
+
+        AddPrefabList(PrefabListName);
+    }
+
+    public void DeletePrefabList(GameObject InputBox)
+    {
+        var PrefabListName = InputBox.GetComponent<TextMeshProUGUI>().text;
+
+        DeletePrefabList(PrefabListName);
+    }
+
+    public void ChangePrefabListName(GameObject Text, GameObject InputBox)
+    {
+
+        var OldPrefabListName = Text.GetComponent<TextMeshProUGUI>().text;
+        var NewPrefabListName = InputBox.GetComponent<TextMeshProUGUI>().text;
+
+        ChangePrefabListName(OldPrefabListName, NewPrefabListName);
+    }
+
+    public void AddItemToPrefabList(GameObject Text, GameObject InputBox)
+    {
+        var PrefabListName = Text.GetComponent<TextMeshProUGUI>().text;
+        var ItemName = InputBox.GetComponent<TextMeshProUGUI>().text;
+
+        AddItemToPrefabList(PrefabListName, ItemName);
+    }
+
+    public void DeleteItemFromPrefabList(GameObject Text, GameObject Text2)
+    {
+        var PrefabListName = Text.GetComponent<TextMeshProUGUI>().text;
+        var ItemName = Text2.GetComponent<TextMeshProUGUI>().text;
+
+        DeleteItemFromPrefabList(PrefabListName, ItemName);
+    }
+
+    public void ChangeItemNameInPrefabList(GameObject Text, GameObject Text2, GameObject InputBox)
+    {
+        var PrefabListName = Text.GetComponent<TextMeshProUGUI>().text;
+        var OldItemName = Text2.GetComponent<TextMeshProUGUI>().text;
+        var NewItemName = InputBox.GetComponent<TextMeshProUGUI>().text;
+
+        ChangeItemNameInPrefabList(PrefabListName, OldItemName, NewItemName);
+    }
+
+    public void GeneratePrefabLists()
     {
 
     }
 
-    public void ChangeItemNameInPrefabList(string prefabListName, string currentName, string newName)
+    public void GeneretePrefabList()
     {
 
     }
 
+
+
+    private void DeleteItSelf(GameObject gameObject)
+    {
+        Destroy(gameObject);
+    }
+
+    public void OpenPrivacyPolicyWebpage()
+    {
+        Application.OpenURL("https://sites.google.com/view/mgameskprivacypolicy/home?authuser=2");
+    }
 }
