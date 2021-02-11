@@ -62,7 +62,7 @@ namespace Assets.Scripts.Data
         /// <returns></returns>
         public Item GetItem(string itemName)
         {
-            if(debug)
+            if (debug)
             {
                 Debug.Log($"Getting item called {itemName}");
             }
@@ -77,51 +77,57 @@ namespace Assets.Scripts.Data
         /// <returns></returns>
         public bool AddItem(string itemName, string itemDescription = null)
         {
-            bool exisits = false;
-            bool emptystring = false;
-
             // Check if the name is not too short
             if (itemName == null || itemName.Length == 1)
             {
                 if (debug)
                 {
-                    Debug.LogWarning("Habit name cannot be empty");
+                    Debug.LogWarning("item name cannot be empty");
                 }
 
                 SSTools.ShowMessage(msg: "Habit name empty",
                     position: SSTools.Position.bottom,
                     time: SSTools.Time.threeSecond);
-                emptystring = true;
+
+                return false;
             }
 
             // If the name is not empty it will try create an item
-            if (!emptystring)
+            var item = Items.Find(n => n.ItemName == itemName);
+            if (item != null)
             {
-                // checks first if the item already 
-                foreach (Item item in Items)
+                if (debug)
                 {
-                    if (item.ItemName == itemName)
-                    {
-                        exisits = true;
-                        SSTools.ShowMessage(msg: "Item already exists",
-                            position: SSTools.Position.bottom,
-                            time: SSTools.Time.threeSecond);
-                        break;
-                    }
+                    Debug.LogWarning("Item already exists");
                 }
 
-                if (!exisits)
-                {
-                    if (debug)
-                    {
-                        Debug.Log($"Adding item called '{itemName}' to the list '{PrefabListName}'.");
-                    }
-                    Item temp_item = new Item(itemName, itemDescription);
-                    Items.Add(temp_item);
-                    PrefabListLastEdited = DateTime.Now;
+                SSTools.ShowMessage(msg: "Item already exists",
+                    position: SSTools.Position.bottom,
+                    time: SSTools.Time.threeSecond);
 
-                    return true;
-                }
+                return false;
+            }
+
+            if (debug)
+            {
+                Debug.Log($"Adding item called '{itemName}' to the list '{PrefabListName}'.");
+            }
+
+            Items.Add(new Item(itemName, itemDescription));
+            PrefabListLastEdited = DateTime.Now;
+
+            return true;
+        }
+
+        public bool ChangeItemName(string currentName, string newName)
+        {
+            var item = Items.Find(n => n.ItemName == currentName);
+            if (item != null)
+            {
+                var description = item.ItemDesciption;
+                Items.Remove(item);
+                Items.Add(new Item(newName, description));
+                return true;
             }
 
             return false;
@@ -149,18 +155,18 @@ namespace Assets.Scripts.Data
         /// Used to delete one element from the PrefabList
         /// </summary>
         /// <param name="item"></param>
-        public void DeleteItem(string itemName)
+        public bool DeleteItem(string itemName)
         {
             var temp_item = Items.Single(r => r.ItemName == itemName);
             if (temp_item != null)
             {
                 PrefabListLastEdited = DateTime.Now;
                 Items.Remove(temp_item);
+                return true;
             }
-            else
-            {
-                Debug.LogWarning("Trying to delete itemt that doesn't exist");
-            }
+
+            Debug.LogWarning("Trying to delete itemt that doesn't exist");
+            return false;
         }
 
         /// <summary>

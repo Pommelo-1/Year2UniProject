@@ -10,8 +10,9 @@ namespace Assets.Scripts.Interface
         bool AddItem(string itemName, string itemDescription);
         void AddItems(List<Item> items);
         void DeleteItems();
-        void DeleteItem(string itemName);
+        bool DeleteItem(string itemName);
         void MarkItemTicked(string itemName);
         void MarkItemUnticked(string itemName);
+        bool ChangeItemName(string currentName, string newName);
     }
 }
