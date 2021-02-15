@@ -36,7 +36,6 @@ namespace Assets.Scripts.Managers
         }
         public bool AddItemToPrefabList(string prefabListName, string itemName)
         {
-            //  TODO: Check if prefab list exisits ?
             return _prefabLists.Find(s => s.PrefabListName == prefabListName).AddItem(itemName);
         }
 
@@ -51,14 +50,13 @@ namespace Assets.Scripts.Managers
                 return false;
             }
 
-            var prefabList = new PrefabList(prefabListName, _debug);
 
-            var item = _prefabLists.Find(n => n == prefabList);
+            var item = _prefabLists.Find(n => n.PrefabListName == prefabListName);
             if (item != null)
             {
                 if (_debug)
                 {
-                    Debug.Log($"trying to add item that already exisits '{prefabList.PrefabListName}'");
+                    Debug.Log($"trying to add item that already exisits '{prefabListName}'");
                 }
 
                 SSTools.ShowMessage(msg: "name already exists",
@@ -68,6 +66,7 @@ namespace Assets.Scripts.Managers
                 return false;
             }
 
+            var prefabList = new PrefabList(prefabListName, _debug);
             _prefabLists.Add(prefabList);
             return true;
         }
