@@ -1,5 +1,5 @@
 ﻿using Assets.Data;
-using Assets.Scipts.Interfaces;
+using Assets.Scripts.Interface;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 namespace Assets.Scripts.Managers
 {
-    public class SaveManager : ISaveManager
+    public class SaveManager : ISavingManager
     {
         private readonly bool debug = false;
         public SaveManager(bool debug = false)
@@ -16,7 +16,7 @@ namespace Assets.Scripts.Managers
             this.debug = debug;
         }
 
-        public void SaveData(SavedData savedData)
+        public void SaveData(SavedData savedData, string path_name)
         {
             if (debug)
             {
@@ -24,7 +24,7 @@ namespace Assets.Scripts.Managers
             }
 
             BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Create(Application.persistentDataPath + Static.File_Save_Location);
+            FileStream file = File.Create(Application.persistentDataPath + path_name);
 
             bf.Serialize(file, savedData);
             file.Close();
@@ -35,17 +35,17 @@ namespace Assets.Scripts.Managers
             }
         }
 
-        public SavedData LoadData()
+        public SavedData LoadData(string path_name)
         {
             if (debug)
             {
                 Debug.Log("Starting loading data...");
             }
 
-            if (File.Exists(Application.persistentDataPath + Static.File_Save_Location))
+            if (File.Exists(Application.persistentDataPath + path_name))
             {
                 BinaryFormatter bf = new BinaryFormatter();
-                FileStream file = File.Open(Application.persistentDataPath + Static.File_Save_Location, FileMode.Open);
+                FileStream file = File.Open(Application.persistentDataPath + path_name, FileMode.Open);
 
                 SavedData data = (SavedData)bf.Deserialize(file);
                 file.Close();
@@ -67,22 +67,22 @@ namespace Assets.Scripts.Managers
             }
         }
 
-        public void DeleteData()
+        public void DeleteData(string path_name)
         {
             if (debug)
             {
                 Debug.Log("Trying to delete the data");
             }
-            if (File.Exists(Application.persistentDataPath + Static.File_Save_Location))
+            if (File.Exists(Application.persistentDataPath + path_name))
             {
-                File.Delete(Application.persistentDataPath + Static.File_Save_Location);
+                File.Delete(Application.persistentDataPath + path_name);
 
                 if (debug)
                 {
                     Debug.Log("Data was deleted.");
                 }
 
-                if (File.Exists(Application.persistentDataPath + Static.File_Save_Location))
+                if (File.Exists(Application.persistentDataPath + path_name))
                 {
                     Debug.LogWarning("File still exists (¬_¬ )");
                 }

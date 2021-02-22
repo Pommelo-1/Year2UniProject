@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Data;
+﻿using Assets.Data;
+using Assets.Scripts.Data;
 using Assets.Scripts.Interface;
 using Assets.Scripts.Managers;
 using System.Collections.Generic;
@@ -67,17 +68,17 @@ public class MasterController : MonoBehaviour
     private void LoadData()
     {
         //TODO: need to implement loading data here
-        var LoadData = savingManager.LoadData();
+        var LoadData = savingManager.LoadData("");
     }
 
     private void SaveData()
     {
-        var SaveData = savingManager.SaveData();
+        savingManager.SaveData(new SavedData(), "");
     }
 
     public void DeleteData()
     {
-        var DeleteData = savingManager.DeleteData();
+        savingManager.DeleteData("");
     }
 
     // PrefabList
