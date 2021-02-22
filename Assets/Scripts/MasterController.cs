@@ -67,12 +67,12 @@ public class MasterController : MonoBehaviour
     private void LoadData()
     {
         //TODO: need to implement loading data here
-        var LoadData = savingManager.SaveData();
+        var LoadData = savingManager.LoadData();
     }
 
     private void SaveData()
     {
-        var SaveData = savingManager.LoadData();
+        var SaveData = savingManager.SaveData();
     }
 
     public void DeleteData()
