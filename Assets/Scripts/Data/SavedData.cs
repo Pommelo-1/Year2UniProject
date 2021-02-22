@@ -15,20 +15,13 @@ namespace Assets.Data
     [Serializable]
     public class SavedData
     {
-
-        //public List<Habit> habits;
-        //public string themeName;
-
-        public List<UserList> userLists;
+        public List<ActiveList> activeLists;
         public List<PrefabList> prefabLists;
-        public List<Items> itemsInList;
-        //settings
 
-        public SavedData(List<UserList> userLists, List<PrefabList> prefabLists, List<Items> itemsInList)
+        public SavedData(List<UserList> activeLists, List<PrefabList> prefabLists)
         {
-            this.userLists = userLists;
+            this.userLists = activeLists;
             this.prefabLists = prefabLists;
-            this.itemsInList = itemsInList;
         }
     }
 }
