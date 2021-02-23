@@ -100,7 +100,7 @@ public class MasterController : MonoBehaviour
 
     private void SaveData()
     {
-        savingManager.SaveData(new SavedData(), "");
+        //savingManager.SaveData(new SavedData(), "");
     }
 
     public void DeleteData()
