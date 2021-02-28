@@ -27,6 +27,8 @@ public class MasterController : MonoBehaviour
     public GameObject PrefabPanelPrefabList;
     public GameObject PrefabPrefabListElement;
 
+    public GameObject PrefabConfirmDelete;
+
     // Managers
     PrefabListManager PrefabListManager = new PrefabListManager(Static.debug);
     ISavingManager savingManager;
@@ -77,7 +79,7 @@ public class MasterController : MonoBehaviour
         AddItemToPrefabList("test3", "item4");
         ChangeItemNameInPrefabList("test3", "item4", "item5");
 
-        DeleteItemFromPrefabList("test3", "item5");
+        DeleteItemFromPrefabListConfirm("test3", "item5");
     }
 
     // Save Manager
@@ -111,7 +113,28 @@ public class MasterController : MonoBehaviour
         }
     }
 
-    private void DeletePrefabList(string prefabName)
+    private void DeletePrefabListConfirm(string prefabName)
+    {
+        Debug.Log($"trying to delete prefab '{prefabName}'");
+
+        // Create GameObject instance
+        GameObject newObj;
+        newObj = Instantiate(PrefabConfirmDelete, MainPanel.transform);
+
+        // set up text
+        var labels = newObj.GetComponentsInChildren<TextMeshProUGUI>();
+        var label_name = labels[1];
+
+        label_name.text = prefabName;
+
+        Button button_yes = newObj.GetComponent<Transform>().Find("Panel").Find("Yes").GetComponent<Button>();
+        Button button_no = newObj.GetComponent<Transform>().Find("Panel").Find("No").GetComponent<Button>();
+
+        button_yes.onClick.AddListener(() => DeletePrefabList(newObj, prefabName));
+        button_no.onClick.AddListener(() => DeleteItSelf(newObj));
+    }
+
+    private void DeletePrefabList(GameObject gameObject, string prefabName)
     {
         var success = PrefabListManager.DeletePrefabList(prefabName);
 
@@ -119,11 +142,12 @@ public class MasterController : MonoBehaviour
         {
             SaveData();
 
-            // update UI
-            DisplayUi("PrefabLists");
         }
-    }
+        // update UI
+        DisplayUi("PrefabLists");
+        DeleteItSelf(gameObject);
 
+    }
     private void ChangePrefabListName(string currentName, string newName)
     {
         var success = PrefabListManager.ChangePrefabListName(currentName, newName);
@@ -145,7 +169,7 @@ public class MasterController : MonoBehaviour
         {
             SaveData();
 
-            if(currentSelectedList == "")
+            if (currentSelectedList == "")
             {
                 Debug.LogError("currentlistname is empty");
                 return;
@@ -156,7 +180,28 @@ public class MasterController : MonoBehaviour
         }
     }
 
-    private void DeleteItemFromPrefabList(string prefabListName, string itemName)
+    private void DeleteItemFromPrefabListConfirm(string prefabListName, string itemName)
+    {
+        Debug.Log($"trying to delete prefab '{itemName}'");
+
+        // Create GameObject instance
+        GameObject newObj;
+        newObj = Instantiate(PrefabConfirmDelete, MainPanel.transform);
+
+        // set up text
+        var labels = newObj.GetComponentsInChildren<TextMeshProUGUI>();
+        var label_name = labels[1];
+
+        label_name.text = itemName;
+
+        Button button_yes = newObj.GetComponent<Transform>().Find("Panel").Find("Yes").GetComponent<Button>();
+        Button button_no = newObj.GetComponent<Transform>().Find("Panel").Find("No").GetComponent<Button>();
+
+        button_yes.onClick.AddListener(() => DeleteItemFromPrefabList(newObj, prefabListName, itemName));
+        button_no.onClick.AddListener(() => DeleteItSelf(newObj));
+    }
+
+    private void DeleteItemFromPrefabList(GameObject gameObject, string prefabListName, string itemName)
     {
         var success = PrefabListManager.DeleteItemPrefabList(prefabListName, itemName);
 
@@ -164,8 +209,10 @@ public class MasterController : MonoBehaviour
         {
             SaveData();
         }
+
         // update UI
         DisplayUi("PrefabListItems", currentSelectedList);
+        DeleteItSelf(gameObject);
     }
 
     private void ChangeItemNameInPrefabList(string prefabListName, string currentName, string newName)
@@ -213,11 +260,11 @@ public class MasterController : MonoBehaviour
         {
             DisplayUi_PrefabListElements(name);
         }
-        else if(mode == "ActiveLists")
+        else if (mode == "ActiveLists")
         {
             Debug.LogError("function not created yet");
         }
-        else if(mode == "ActiveListItems")
+        else if (mode == "ActiveListItems")
         {
             Debug.LogError("function not created yet");
         }
@@ -242,7 +289,7 @@ public class MasterController : MonoBehaviour
 
         DeleteUiElements();
 
-        foreach(var item in items)
+        foreach (var item in items)
         {
             GameObject newObj;
 
@@ -253,7 +300,7 @@ public class MasterController : MonoBehaviour
 
             // delete button
             var button = newObj.GetComponentInChildren<Button>();
-            button.onClick.AddListener(() => DeleteItemFromPrefabList(prefabListName, item.ItemName));
+            button.onClick.AddListener(() => DeleteItemFromPrefabListConfirm(prefabListName, item.ItemName));
 
             // at the end adds it to the 
             ui_elements.Add(newObj);
@@ -292,7 +339,7 @@ public class MasterController : MonoBehaviour
             //TODO: Logic for starting the active List
 
             // Delete button
-            buttons[2].onClick.AddListener(() => DeletePrefabList(prefab.PrefabListName));
+            buttons[2].onClick.AddListener(() => DeletePrefabListConfirm(prefab.PrefabListName));
 
             // at the end adds it to the 
             ui_elements.Add(newObj);
