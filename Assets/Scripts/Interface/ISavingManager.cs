@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Data;
+﻿using Assets.Data;
+using Assets.Scripts.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace Assets.Scripts.Interface
 {
     public interface ISavingManager
     {
-        SaveData LoadData();
-        void Save(SaveData data);
-        void DeleteData();
+        SavedData LoadData(string path_name);
+        void SaveData(SavedData data, string path_name);
+        void DeleteData(string path_name);
     }
 }
