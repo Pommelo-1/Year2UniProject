@@ -28,6 +28,7 @@ public class MasterController : MonoBehaviour
 
     // Managers
     PrefabListManager PrefabListManager = new PrefabListManager(Static.debug);
+    ActiveListManager ActiveListManager = new ActiveListManager(Static.debug);
     ISavingManager savingManager;
 
     // First thing called after running it 
@@ -144,7 +145,7 @@ public class MasterController : MonoBehaviour
         {
             SaveData();
 
-            if(currentSelectedList == "")
+            if (currentSelectedList == "")
             {
                 Debug.LogError("currentlistname is empty");
                 return;
@@ -212,11 +213,11 @@ public class MasterController : MonoBehaviour
         {
             DisplayUi_PrefabListElements(name);
         }
-        else if(mode == "ActiveLists")
+        else if (mode == "ActiveLists")
         {
-            Debug.LogError("function not created yet");
+            Display_ActiveLists();
         }
-        else if(mode == "ActiveListItems")
+        else if (mode == "ActiveListItems")
         {
             Debug.LogError("function not created yet");
         }
@@ -241,7 +242,7 @@ public class MasterController : MonoBehaviour
 
         DeleteUiElements();
 
-        foreach(var item in items)
+        foreach (var item in items)
         {
             GameObject newObj;
 
@@ -327,5 +328,67 @@ public class MasterController : MonoBehaviour
     public void OpenPrivacyPolicyWebpage()
     {
         Application.OpenURL("https://sites.google.com/view/mgameskprivacypolicy/home?authuser=2");
+    }
+
+    //Active List Code
+    public void DisplayuiActiveLists()
+    {
+        DisplayUi("ActiveLists");
+    }
+
+
+    private void Display_ActiveLists()
+    {
+        // check if there are any prefabs
+        var activeLists = ActiveListManager.GetActiveLists();
+
+        if (activeLists.Count == 0)
+        {
+            Debug.Log("No prefabLists to display");
+            return;
+        }
+
+        // Need to delete current Ui 
+        DeleteUiElements();
+
+        // generate prefabs
+        foreach (var prefab in activeLists)
+        {
+            GameObject newObj; // Create GameObject instance
+
+            newObj = Instantiate(PrefabPanelActiveList, ItemDropDown.transform);
+
+            // Find buttons located on this prefab
+            var buttons = newObj.GetComponentsInChildren<Button>();
+
+            // Name button
+            buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = prefab.PrefabListName;
+            buttons[0].onClick.AddListener(() => DisplayUi("PrefabListItems", prefab.PrefabListName));
+
+            // Start button
+            //TODO: Logic for starting the active List
+
+            // Delete button
+            buttons[2].onClick.AddListener(() => DeletePrefabList(prefab.PrefabListName));
+
+            // at the end adds it to the 
+            ui_elements.Add(newObj);
+        }
+
+
+
+    }
+    
+    public void AddActiveList(string name)
+    {
+        var ActiveList = gameObject.GetComponent<TextMeshProUGUI>().name;
+
+        ActiveListManager.AddActiveList(name);
+
+        //if (ActiveList)
+        //{
+        //    DisplayUi("ActiveList", name);
+        //}
+        
     }
 }
