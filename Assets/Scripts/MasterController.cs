@@ -124,6 +124,18 @@ public class MasterController : MonoBehaviour
         }
     }
 
+    private void DeleteActiveList(string prefabName)
+    {
+        var success = ActiveListManager.DeleteActiveList(prefabName);
+
+        if (success)
+        {
+            SaveData();
+
+            DisplayUi("ActiveLists");
+        }
+    }
+
     private void ChangePrefabListName(string currentName, string newName)
     {
         var success = PrefabListManager.ChangePrefabListName(currentName, newName);
@@ -291,6 +303,8 @@ public class MasterController : MonoBehaviour
             // Start button
             //TODO: Logic for starting the active List
 
+            buttons[1].onClick.AddListener(() => AddActiveList(prefab.PrefabListName));
+            buttons[1].onClick.AddListener(() => DeletePrefabList(prefab.PrefabListName));
             // Delete button
             buttons[2].onClick.AddListener(() => DeletePrefabList(prefab.PrefabListName));
 
@@ -361,15 +375,11 @@ public class MasterController : MonoBehaviour
             // Find buttons located on this prefab
             var buttons = newObj.GetComponentsInChildren<Button>();
 
-            // Name button
-            buttons[0].GetComponentInChildren<TextMeshProUGUI>().text = prefab.PrefabListName;
-            buttons[0].onClick.AddListener(() => DisplayUi("PrefabListItems", prefab.PrefabListName));
-
-            // Start button
-            //TODO: Logic for starting the active List
+            
 
             // Delete button
-            buttons[2].onClick.AddListener(() => DeletePrefabList(prefab.PrefabListName));
+            buttons[0].onClick.AddListener(() => DeleteActiveList(prefab.PrefabListName));
+            buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = prefab.PrefabListName;
 
             // at the end adds it to the 
             ui_elements.Add(newObj);
@@ -379,16 +389,17 @@ public class MasterController : MonoBehaviour
 
     }
     
-    public void AddActiveList(string name)
+    public void AddActiveList(string prefabName)
     {
-        var ActiveList = gameObject.GetComponent<TextMeshProUGUI>().name;
+        var success = ActiveListManager.AddActiveList(prefabName);
 
-        ActiveListManager.AddActiveList(name);
+        if (success)
+        {
+            SaveData();
 
-        //if (ActiveList)
-        //{
-        //    DisplayUi("ActiveList", name);
-        //}
+            // update UI
+            DisplayUi("ActiveList");
+        }
         
     }
 }
