@@ -25,6 +25,7 @@ public class MasterController : MonoBehaviour
     public GameObject PrefabActiveListElement;
     public GameObject PrefabPanelPrefabList;
     public GameObject PrefabPrefabListElement;
+    
 
     // Managers
     PrefabListManager PrefabListManager = new PrefabListManager(Static.debug);
@@ -231,7 +232,7 @@ public class MasterController : MonoBehaviour
         }
         else if (mode == "ActiveListItems")
         {
-            Debug.LogError("function not created yet");
+            Display_Ui_ActiveList_Elements(name);
         }
         else
         {
@@ -380,6 +381,7 @@ public class MasterController : MonoBehaviour
             // Delete button
             buttons[0].onClick.AddListener(() => DeleteActiveList(prefab.PrefabListName));
             buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = prefab.PrefabListName;
+            buttons[1].onClick.AddListener(() => Display_Ui_ActiveList_Elements(prefab.PrefabListName));
 
             // at the end adds it to the 
             ui_elements.Add(newObj);
@@ -401,5 +403,57 @@ public class MasterController : MonoBehaviour
             DisplayUi("ActiveList");
         }
         
+    }
+
+    private void Display_Ui_ActiveList_Elements(string prefabListName)
+    {
+        var items = ActiveListManager.GetActiveList(prefabListName).GetItems();
+
+        
+        currentSelectedList = prefabListName;
+
+        if (items.Count == 0)
+        {
+            Debug.Log("No items to show");
+            return;
+        }
+
+        DeleteUiElements();
+
+        foreach (var item in items)
+        {
+            GameObject newObj;
+
+            newObj = Instantiate(PrefabPrefabListElement, ItemDropDown.transform);
+
+            // text
+            newObj.GetComponentInChildren<TextMeshProUGUI>().text = item.ItemName;
+
+            // delete button
+            var button = newObj.GetComponentInChildren<Button>();
+            button.onClick.AddListener(() => DeleteItemFromPrefabList(prefabListName, item.ItemName));
+
+            // at the end adds it to the 
+            ui_elements.Add(newObj);
+        }
+    }
+
+    private void AddItemToActiveList(string prefabListName, string itemName)
+    {
+        var success = ActiveListManager.AddItemToActiveList(prefabListName, itemName);
+
+        if (success)
+        {
+            SaveData();
+
+            if (currentSelectedList == "")
+            {
+                Debug.LogError("currentlistname is empty");
+                return;
+            }
+
+            // update UI
+            DisplayUi("ActiveListItems", currentSelectedList);
+        }
     }
 }
