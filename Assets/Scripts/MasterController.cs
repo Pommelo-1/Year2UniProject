@@ -277,6 +277,7 @@ public class MasterController : MonoBehaviour
     {
         // check if there are any prefabs
         var prefabLists = PrefabListManager.GetPrefabLists();
+        
 
         if (prefabLists.Count == 0)
         {
@@ -291,6 +292,8 @@ public class MasterController : MonoBehaviour
         foreach (var prefab in prefabLists)
         {
             GameObject newObj; // Create GameObject instance
+            var items = PrefabListManager.GetPrefabList(prefab.PrefabListName).GetItems();
+            
 
             newObj = Instantiate(PrefabPanelPrefabList, ItemDropDown.transform);
 
@@ -305,6 +308,12 @@ public class MasterController : MonoBehaviour
             //TODO: Logic for starting the active List
 
             buttons[1].onClick.AddListener(() => AddActiveList(prefab.PrefabListName));
+            
+            foreach (var item in items)
+            {
+                buttons[1].onClick.AddListener(() => AddItemToActiveList(prefab.PrefabListName, item.ItemName));
+            }
+
             buttons[1].onClick.AddListener(() => DeletePrefabList(prefab.PrefabListName));
             // Delete button
             buttons[2].onClick.AddListener(() => DeletePrefabList(prefab.PrefabListName));
@@ -378,7 +387,7 @@ public class MasterController : MonoBehaviour
 
             
 
-            // Delete button
+            // Delete button, View active list items 
             buttons[0].onClick.AddListener(() => DeleteActiveList(prefab.PrefabListName));
             buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = prefab.PrefabListName;
             buttons[1].onClick.AddListener(() => Display_Ui_ActiveList_Elements(prefab.PrefabListName));
