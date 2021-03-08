@@ -12,14 +12,13 @@ public class SignInScript : MonoBehaviour
     public Text DisplayName;
     
     
-
     
 
     void Start()
     {
-        PlayGamesPlatform.DebugLogEnabled = true;
+        //PlayGamesPlatform.DebugLogEnabled = true;
 
-        PlayGamesPlatform.Activate();
+        //PlayGamesPlatform.Activate();
     }
 
     public void LogIn()
@@ -44,7 +43,7 @@ public class SignInScript : MonoBehaviour
     public void LogOut()
     {
         
-        ((PlayGamesPlatform)Social.Active).SignOut();
+        //((PlayGamesPlatform)Social.Active).SignOut();
         
 
     }
