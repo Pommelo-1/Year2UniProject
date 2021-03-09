@@ -1,4 +1,5 @@
 ﻿using Assets.Data;
+using Assets.Scripts;
 using Assets.Scripts.Data;
 using Assets.Scripts.Interface;
 using Assets.Scripts.Managers;
@@ -12,6 +13,7 @@ public class MasterController : MonoBehaviour
     private readonly bool _debug = Static.debug;
 
     private List<GameObject> ui_elements = new List<GameObject>();
+
 
     //UI
     public GameObject ItemDropDown;
@@ -29,9 +31,17 @@ public class MasterController : MonoBehaviour
 
     public GameObject PrefabConfirmDelete;
 
+    public TMP_Dropdown themeDropdown;
+
+    UI_Element_Holder ui_Element_Holder;
+
+
     // Managers
     PrefabListManager PrefabListManager = new PrefabListManager(Static.debug);
     ISavingManager savingManager;
+
+    ThemeManager themeManager = new ThemeManager(Static.debug);
+
 
     // First thing called after running it 
     public void Awake()
@@ -39,54 +49,61 @@ public class MasterController : MonoBehaviour
         // Loads data
         LoadData();
 
-        //test();
-        // Display Ui
-        DisplayUi("PrefabLists");
     }
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
+        InstantiateThemeChooser();
+        // Makes connection to the other script responsible for applying theme
+        ui_Element_Holder = GameObject.Find("Holder").GetComponent<UI_Element_Holder>();
 
+        // Applies theme to all of the elements on the screen
+        ui_Element_Holder.SetColours(themeManager.ReturnCurrentTheme());
+
+        // adds the themes to the dropdown
     }
 
-    public void test()
+    public void OnDropdownThemeChange()
     {
-        Debug.Log("calling test");
-        AddPrefabList("test1");
-        AddPrefabList("test2");
-        AddPrefabList("test3");
-        AddItemToPrefabList("test1", "mobile phone");
-        AddItemToPrefabList("test1", "bike");
 
-
-        Debug.Log("current items in test1 are");
-        var testItems = PrefabListManager.GetPrefabList("test1").GetItems();
-        foreach (var t in testItems)
+        var menuIndex = themeDropdown.value;
+        var menuOptions = themeDropdown.options;
+        string dropdownThemeName = menuOptions[menuIndex].text;
+        if (_debug)
         {
-            Debug.Log(t.ItemName);
+            Debug.Log($"value in dropdown theme changed to {dropdownThemeName}");
         }
 
-        // Change name
-        ChangePrefabListName("test1", "test2");
-        var testPerfab = PrefabListManager.GetPrefabList("test2");
+        themeManager.UpdateCurrentTheme(dropdownThemeName);
 
-        //DeletePrefabList("test1");
-        //DeletePrefabList("test2");
+        // Applies the new theme
+        ui_Element_Holder.SetColours(themeManager.ReturnCurrentTheme());
+        DisplayUi_PrefabLists();
 
-        AddPrefabList("test3");
+        SaveData();
+    }
 
-        AddItemToPrefabList("test3", "item4");
-        ChangeItemNameInPrefabList("test3", "item4", "item5");
+    private void InstantiateThemeChooser()
+    {
+        Debug.Log("Here");
+        List<string> themeNames = new List<string>();
+        foreach (Theme theme in themeManager.ReturnThemes())
+        {
+            themeNames.Add(theme.Name);
+        }
 
-        DeleteItemFromPrefabListConfirm("test3", "item5");
+        // Clears options for dropdown and then add mine
+        themeDropdown.ClearOptions();
+
+        themeDropdown.AddOptions(themeNames);
     }
 
     // Save Manager
     private void LoadData()
     {
         //TODO: need to implement loading data here
-        var LoadData = savingManager.LoadData("");
+        //var LoadData = savingManager.LoadData("");
     }
 
     private void SaveData()
