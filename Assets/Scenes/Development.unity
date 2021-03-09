@@ -123,17 +123,13 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &1975887794
+--- !u!1001 &1662789558
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1643383868, guid: 3e68febb77c5c5c45bf0188966eaf0bd, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 508979155055849320, guid: 3e68febb77c5c5c45bf0188966eaf0bd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -218,10 +214,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2385365597031832691, guid: 3e68febb77c5c5c45bf0188966eaf0bd, type: 3}
-      propertyPath: PrefabConfirmDelete
-      value: 
-      objectReference: {fileID: 1276222932035717348, guid: f3fdf1026b0574c41b4b48d7c4b1710e, type: 3}
     - target: {fileID: 5055125612314567584, guid: 3e68febb77c5c5c45bf0188966eaf0bd, type: 3}
       propertyPath: m_Name
       value: Main_Canvas
