@@ -1,6 +1,5 @@
 using Assets.Scripts.Data;
 using Assets.Scripts.Interface;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -12,6 +11,7 @@ namespace Assets.Scripts.Managers
     {
         private List<PrefabList> _activeLists = new List<PrefabList>();
         private readonly bool _debug = false;
+        int ActiveListCounter = 0;
 
         public ActiveListManager(bool debug = false)
         {
@@ -21,6 +21,7 @@ namespace Assets.Scripts.Managers
 
         public bool AddActiveList(string activeListName)
         {
+            int i = 0;
             if (activeListName.Length == 1)
             {
                 SSTools.ShowMessage(msg: "ActiveList empty name empty",
@@ -35,14 +36,17 @@ namespace Assets.Scripts.Managers
             {
                 if (_debug)
                 {
-                    Debug.Log($"trying to add item that already exists'{activeListName}'");
+                    activeListName = activeListName + $"[{ActiveListCounter}]";
+                    
+                    var activeList0 = new PrefabList(activeListName, _debug);
+                    _activeLists.Add(activeList0);
+                    ActiveListCounter++;
+                    return true;
                 }
 
-                SSTools.ShowMessage(msg: "name already exists",
-                    position: SSTools.Position.bottom,
-                    time: SSTools.Time.threeSecond);
+                
 
-                return false;
+                
             }
 
             var activeList = new PrefabList(activeListName, _debug);
@@ -95,6 +99,7 @@ namespace Assets.Scripts.Managers
             }
 
             _activeLists.Remove(activeList);
+            
             return true;
         }
 
@@ -125,14 +130,22 @@ namespace Assets.Scripts.Managers
             return _activeLists;
         }
 
-        public bool MarkItemasComplete(string itemName)
+        public bool MarkItemasCompleted(string list, string itemName)
         {
-            throw new System.NotImplementedException();
+            var activeList = _activeLists.Find(s => s.PrefabListName == list);
+
+            activeList.MarkItemTicked(itemName);
+            return true;
+
+                
         }
 
-        public bool UnMarkItemAsUncompleted(string itemName)
+        public bool UnMarkItemAsUncompleted(string list,string itemName)
         {
-            throw new System.NotImplementedException();
+            var activeList = _activeLists.Find(s => s.PrefabListName == list);
+
+            activeList.MarkItemUnticked(itemName);
+            return false;
         }
     }
 }

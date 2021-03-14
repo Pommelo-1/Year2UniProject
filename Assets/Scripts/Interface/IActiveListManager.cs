@@ -15,8 +15,8 @@ namespace Assets.Scripts.Interface
         bool ChangeActiveListName(string currentName, string newName);
         bool AddItemToActiveList(string activeListName, string itemName);
         bool DeleteItemActiveList(string activeListName, string itemName);
-        bool MarkItemasComplete(string itemName);
-        bool UnMarkItemAsUncompleted(string itemName);
+        bool MarkItemasCompleted(string list, string itemName);
+        bool UnMarkItemAsUncompleted(string list, string itemName);
 
     }
 

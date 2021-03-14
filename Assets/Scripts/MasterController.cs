@@ -30,7 +30,11 @@ public class MasterController : MonoBehaviour
     // Managers
     PrefabListManager PrefabListManager = new PrefabListManager(Static.debug);
     ActiveListManager ActiveListManager = new ActiveListManager(Static.debug);
+    
     ISavingManager savingManager;
+
+    
+    
 
     // First thing called after running it 
     public void Awake()
@@ -308,13 +312,14 @@ public class MasterController : MonoBehaviour
             //TODO: Logic for starting the active List
 
             buttons[1].onClick.AddListener(() => AddActiveList(prefab.PrefabListName));
-            
+            buttons[1].onClick.AddListener(() => DisplayUi("ActiveLists"));
+            //Looks for each Item in the prefablist and adds it to the activelist
             foreach (var item in items)
             {
                 buttons[1].onClick.AddListener(() => AddItemToActiveList(prefab.PrefabListName, item.ItemName));
             }
-
-            buttons[1].onClick.AddListener(() => DeletePrefabList(prefab.PrefabListName));
+            
+            
             // Delete button
             buttons[2].onClick.AddListener(() => DeletePrefabList(prefab.PrefabListName));
 
@@ -361,6 +366,7 @@ public class MasterController : MonoBehaviour
     }
 
 
+    //Displays all the ActiveLists
     private void Display_ActiveLists()
     {
         // check if there are any prefabs
@@ -399,7 +405,7 @@ public class MasterController : MonoBehaviour
 
 
     }
-    
+    //Adds an ActiveList
     public void AddActiveList(string prefabName)
     {
         var success = ActiveListManager.AddActiveList(prefabName);
@@ -413,7 +419,7 @@ public class MasterController : MonoBehaviour
         }
         
     }
-
+    //Displays all the items within a ActiveList
     private void Display_Ui_ActiveList_Elements(string prefabListName)
     {
         var items = ActiveListManager.GetActiveList(prefabListName).GetItems();
@@ -433,20 +439,20 @@ public class MasterController : MonoBehaviour
         {
             GameObject newObj;
 
-            newObj = Instantiate(PrefabPrefabListElement, ItemDropDown.transform);
+            newObj = Instantiate(PrefabActiveListElement, ItemDropDown.transform);
 
             // text
             newObj.GetComponentInChildren<TextMeshProUGUI>().text = item.ItemName;
 
             // delete button
             var button = newObj.GetComponentInChildren<Button>();
-            button.onClick.AddListener(() => DeleteItemFromPrefabList(prefabListName, item.ItemName));
+            button.onClick.AddListener(() => ActiveListManager.MarkItemasCompleted(prefabListName, item.ItemName));
 
             // at the end adds it to the 
             ui_elements.Add(newObj);
         }
     }
-
+    //Function to add items to activeList
     private void AddItemToActiveList(string prefabListName, string itemName)
     {
         var success = ActiveListManager.AddItemToActiveList(prefabListName, itemName);
