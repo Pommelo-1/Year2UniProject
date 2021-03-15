@@ -3,6 +3,7 @@ using Assets.Scripts.Interface;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 namespace Assets.Scripts.Managers
 {
@@ -11,7 +12,6 @@ namespace Assets.Scripts.Managers
     {
         private List<PrefabList> _activeLists = new List<PrefabList>();
         private readonly bool _debug = false;
-        int ActiveListCounter = 0;
 
         public ActiveListManager(bool debug = false)
         {
@@ -19,10 +19,9 @@ namespace Assets.Scripts.Managers
         }
 
 
-        public bool AddActiveList(string activeListName)
+        public bool AddActiveList(PrefabList activeList)
         {
-            int i = 0;
-            if (activeListName.Length == 1)
+            if (activeList.PrefabListName.Length == 1)
             {
                 SSTools.ShowMessage(msg: "ActiveList empty name empty",
                     position: SSTools.Position.bottom,
@@ -31,26 +30,19 @@ namespace Assets.Scripts.Managers
                 return false;
             }
 
-            var item = _activeLists.Find(n => n.PrefabListName == activeListName);
+
+            var activeListCopy =(PrefabList) activeList.Clone();
+            var item = _activeLists.Find(n => n.PrefabListName == activeListCopy.PrefabListName);
             if (item != null)
             {
-                if (_debug)
-                {
-                    activeListName = activeListName + $"[{ActiveListCounter}]";
-                    
-                    var activeList0 = new PrefabList(activeListName, _debug);
-                    _activeLists.Add(activeList0);
-                    ActiveListCounter++;
-                    return true;
-                }
 
-                
-
-                
+                int num = UnityEngine.Random.Range(0, 1000);
+                activeListCopy.PrefabListName += $"[{num}]";
+                _activeLists.Add(activeListCopy);
+                return true;
             }
 
-            var activeList = new PrefabList(activeListName, _debug);
-            _activeLists.Add(activeList);
+            _activeLists.Add(activeListCopy);
             return true;
         }
 
@@ -99,7 +91,7 @@ namespace Assets.Scripts.Managers
             }
 
             _activeLists.Remove(activeList);
-            
+
             return true;
         }
 
@@ -137,10 +129,10 @@ namespace Assets.Scripts.Managers
             activeList.MarkItemTicked(itemName);
             return true;
 
-                
+
         }
 
-        public bool UnMarkItemAsUncompleted(string list,string itemName)
+        public bool UnMarkItemAsUncompleted(string list, string itemName)
         {
             var activeList = _activeLists.Find(s => s.PrefabListName == list);
 

@@ -10,7 +10,7 @@ namespace Assets.Scripts.Interface
         List<PrefabList> GetActiveLists();
         PrefabList GetActiveList(string activeListName);
         void AddActiveLists(List<PrefabList> activeLists);
-        bool AddActiveList(string activeListName);
+        bool AddActiveList(PrefabList activeListName);
         bool DeleteActiveList(string activeListName);
         bool ChangeActiveListName(string currentName, string newName);
         bool AddItemToActiveList(string activeListName, string itemName);

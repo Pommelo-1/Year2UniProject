@@ -25,18 +25,18 @@ public class MasterController : MonoBehaviour
     public GameObject PrefabActiveListElement;
     public GameObject PrefabPanelPrefabList;
     public GameObject PrefabPrefabListElement;
-    
+
 
     // Managers
     PrefabListManager PrefabListManager = new PrefabListManager(Static.debug);
     ActiveListManager ActiveListManager = new ActiveListManager(Static.debug);
-    
+
     ISavingManager savingManager;
 
-    
-    
 
-    // First thing called after running it 
+
+
+    // First thing called after running it
     public void Awake()
     {
         // Loads data
@@ -272,7 +272,7 @@ public class MasterController : MonoBehaviour
             var button = newObj.GetComponentInChildren<Button>();
             button.onClick.AddListener(() => DeleteItemFromPrefabList(prefabListName, item.ItemName));
 
-            // at the end adds it to the 
+            // at the end adds it to the
             ui_elements.Add(newObj);
         }
     }
@@ -281,7 +281,7 @@ public class MasterController : MonoBehaviour
     {
         // check if there are any prefabs
         var prefabLists = PrefabListManager.GetPrefabLists();
-        
+
 
         if (prefabLists.Count == 0)
         {
@@ -289,7 +289,7 @@ public class MasterController : MonoBehaviour
             return;
         }
 
-        // Need to delete current Ui 
+        // Need to delete current Ui
         DeleteUiElements();
 
         // generate prefabs
@@ -297,7 +297,7 @@ public class MasterController : MonoBehaviour
         {
             GameObject newObj; // Create GameObject instance
             var items = PrefabListManager.GetPrefabList(prefab.PrefabListName).GetItems();
-            
+
 
             newObj = Instantiate(PrefabPanelPrefabList, ItemDropDown.transform);
 
@@ -309,21 +309,20 @@ public class MasterController : MonoBehaviour
             buttons[0].onClick.AddListener(() => DisplayUi("PrefabListItems", prefab.PrefabListName));
 
             // Start button
-            //TODO: Logic for starting the active List
-
             buttons[1].onClick.AddListener(() => AddActiveList(prefab.PrefabListName));
             buttons[1].onClick.AddListener(() => DisplayUi("ActiveLists"));
-            //Looks for each Item in the prefablist and adds it to the activelist
-            foreach (var item in items)
-            {
-                buttons[1].onClick.AddListener(() => AddItemToActiveList(prefab.PrefabListName, item.ItemName));
-            }
-            
-            
+
+
+            ////Looks for each Item in the prefablist and adds it to the activelist
+            //foreach (var item in items)
+            //{
+            //    buttons[1].onClick.AddListener(() => AddItemToActiveList(prefab.PrefabListName, item.ItemName));
+            //}
+
             // Delete button
             buttons[2].onClick.AddListener(() => DeletePrefabList(prefab.PrefabListName));
 
-            // at the end adds it to the 
+            // at the end adds it to the
             ui_elements.Add(newObj);
         }
     }
@@ -378,7 +377,7 @@ public class MasterController : MonoBehaviour
             return;
         }
 
-        // Need to delete current Ui 
+        // Need to delete current Ui
         DeleteUiElements();
 
         // generate prefabs
@@ -391,14 +390,12 @@ public class MasterController : MonoBehaviour
             // Find buttons located on this prefab
             var buttons = newObj.GetComponentsInChildren<Button>();
 
-            
-
-            // Delete button, View active list items 
+            // Delete button, View active list items
             buttons[0].onClick.AddListener(() => DeleteActiveList(prefab.PrefabListName));
             buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = prefab.PrefabListName;
             buttons[1].onClick.AddListener(() => Display_Ui_ActiveList_Elements(prefab.PrefabListName));
 
-            // at the end adds it to the 
+            // at the end adds it to the
             ui_elements.Add(newObj);
         }
 
@@ -406,26 +403,28 @@ public class MasterController : MonoBehaviour
 
     }
     //Adds an ActiveList
-    public void AddActiveList(string prefabName)
+    public void AddActiveList(string prefabListName)
     {
-        var success = ActiveListManager.AddActiveList(prefabName);
+        var prefabList = PrefabListManager.GetPrefabList(prefabListName);
+
+        var success = ActiveListManager.AddActiveList(prefabList);
 
         if (success)
         {
             SaveData();
 
             // update UI
-            DisplayUi("ActiveList");
+            DisplayUi("ActiveLists");
         }
-        
+
     }
     //Displays all the items within a ActiveList
-    private void Display_Ui_ActiveList_Elements(string prefabListName)
+    private void Display_Ui_ActiveList_Elements(string activeListName)
     {
-        var items = ActiveListManager.GetActiveList(prefabListName).GetItems();
+        var items = ActiveListManager.GetActiveList(activeListName).GetItems();
 
-        
-        currentSelectedList = prefabListName;
+
+        currentSelectedList = activeListName;
 
         if (items.Count == 0)
         {
@@ -446,29 +445,39 @@ public class MasterController : MonoBehaviour
 
             // delete button
             var button = newObj.GetComponentInChildren<Button>();
-            button.onClick.AddListener(() => ActiveListManager.MarkItemasCompleted(prefabListName, item.ItemName));
 
-            // at the end adds it to the 
-            ui_elements.Add(newObj);
-        }
-    }
-    //Function to add items to activeList
-    private void AddItemToActiveList(string prefabListName, string itemName)
-    {
-        var success = ActiveListManager.AddItemToActiveList(prefabListName, itemName);
+            var isCompleted = item.ItemTicked;
 
-        if (success)
-        {
-            SaveData();
-
-            if (currentSelectedList == "")
+            if (!isCompleted)
             {
-                Debug.LogError("currentlistname is empty");
-                return;
+                // todo: Change colour to red
+                button.onClick.AddListener(() => MarkItemAsCompleted(activeListName, item.ItemName));
+
+            }
+            else
+            {
+                // todo Change colour to green
+                button.onClick.AddListener(() => ActiveListManager.UnMarkItemAsUncompleted(activeListName, item.ItemName));
+
+                // todo Change button text to "uncomplete"
             }
 
-            // update UI
-            DisplayUi("ActiveListItems", currentSelectedList);
+
+            // at the end adds it to the
+            ui_elements.Add(newObj);
+        }
+
+
+    }
+    public void MarkItemAsCompleted(string ActiveListName, string ActiveListItemName)
+    {
+        var succeded = ActiveListManager.MarkItemasCompleted(ActiveListName, ActiveListItemName);
+
+        if(succeded)
+        {
+            DisplayUi("ActiveLists", ActiveListItemName);
         }
     }
+
+    // TODO: make the same for unmark it
 }
