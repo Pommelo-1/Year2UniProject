@@ -33,6 +33,10 @@ public class MasterController : MonoBehaviour
 
     ISavingManager savingManager;
 
+    //Colors
+    public Color Green;
+    public Color Red;
+
 
 
 
@@ -373,7 +377,7 @@ public class MasterController : MonoBehaviour
 
         if (activeLists.Count == 0)
         {
-            Debug.Log("No prefabLists to display");
+            Debug.Log("No activeLists to display");
             return;
         }
 
@@ -445,6 +449,8 @@ public class MasterController : MonoBehaviour
 
             // delete button
             var button = newObj.GetComponentInChildren<Button>();
+            var image = newObj.GetComponentInChildren<Image>();
+            var buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
 
             var isCompleted = item.ItemTicked;
 
@@ -452,14 +458,19 @@ public class MasterController : MonoBehaviour
             {
                 // todo: Change colour to red
                 button.onClick.AddListener(() => MarkItemAsCompleted(activeListName, item.ItemName));
-
+                button.onClick.AddListener(() => image.color = Green);
+                button.onClick.AddListener(() => buttonText.text = "Set as incompleted");
             }
             else
             {
                 // todo Change colour to green
                 button.onClick.AddListener(() => ActiveListManager.UnMarkItemAsUncompleted(activeListName, item.ItemName));
-
+                button.onClick.AddListener(() => image.color = Red);
                 // todo Change button text to "uncomplete"
+                button.onClick.AddListener(() => buttonText.text = "Set as completed");
+                
+                
+
             }
 
 
@@ -480,4 +491,12 @@ public class MasterController : MonoBehaviour
     }
 
     // TODO: make the same for unmark it
+    public void UnMarkItemAsUncompleted(string ActiveListName, string ActiveListItemName)
+    {
+        var succeeded = ActiveListManager.UnMarkItemAsUncompleted(ActiveListName, ActiveListItemName);
+        if (succeeded)
+        {
+            DisplayUi("ActiveLists", ActiveListItemName);
+        }
+    }
 }

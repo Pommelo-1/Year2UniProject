@@ -457,6 +457,46 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 1155907195698180386, guid: 3e68febb77c5c5c45bf0188966eaf0bd, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -70.53601
+      objectReference: {fileID: 0}
+    - target: {fileID: 1155907195698180386, guid: 3e68febb77c5c5c45bf0188966eaf0bd, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385365597031832691, guid: 3e68febb77c5c5c45bf0188966eaf0bd, type: 3}
+      propertyPath: Green.r
+      value: 0.023529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385365597031832691, guid: 3e68febb77c5c5c45bf0188966eaf0bd, type: 3}
+      propertyPath: Green.g
+      value: 0.8392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385365597031832691, guid: 3e68febb77c5c5c45bf0188966eaf0bd, type: 3}
+      propertyPath: Green.b
+      value: 0.627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385365597031832691, guid: 3e68febb77c5c5c45bf0188966eaf0bd, type: 3}
+      propertyPath: Green.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385365597031832691, guid: 3e68febb77c5c5c45bf0188966eaf0bd, type: 3}
+      propertyPath: Red.r
+      value: 0.9372549
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385365597031832691, guid: 3e68febb77c5c5c45bf0188966eaf0bd, type: 3}
+      propertyPath: Red.g
+      value: 0.2784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385365597031832691, guid: 3e68febb77c5c5c45bf0188966eaf0bd, type: 3}
+      propertyPath: Red.b
+      value: 0.18039216
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385365597031832691, guid: 3e68febb77c5c5c45bf0188966eaf0bd, type: 3}
+      propertyPath: Red.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2907867523438298681, guid: 3e68febb77c5c5c45bf0188966eaf0bd, type: 3}
       propertyPath: m_SizeDelta.y
       value: 1469
