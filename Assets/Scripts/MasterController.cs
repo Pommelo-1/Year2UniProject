@@ -43,7 +43,7 @@ public class MasterController : MonoBehaviour
     ThemeManager themeManager = new ThemeManager(Static.debug);
 
 
-    // First thing called after running it 
+    // First thing called after running it
     public void Awake()
     {
         // Loads data
@@ -54,7 +54,6 @@ public class MasterController : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        InstantiateThemeChooser();
         // Makes connection to the other script responsible for applying theme
         ui_Element_Holder = GameObject.Find("Holder").GetComponent<UI_Element_Holder>();
 
@@ -62,11 +61,11 @@ public class MasterController : MonoBehaviour
         ui_Element_Holder.SetColours(themeManager.ReturnCurrentTheme());
 
         // adds the themes to the dropdown
+        InstantiateThemeChooser();
     }
 
     public void OnDropdownThemeChange()
     {
-
         var menuIndex = themeDropdown.value;
         var menuOptions = themeDropdown.options;
         string dropdownThemeName = menuOptions[menuIndex].text;
@@ -86,7 +85,6 @@ public class MasterController : MonoBehaviour
 
     private void InstantiateThemeChooser()
     {
-        Debug.Log("Here");
         List<string> themeNames = new List<string>();
         foreach (Theme theme in themeManager.ReturnThemes())
         {
@@ -319,7 +317,7 @@ public class MasterController : MonoBehaviour
             var button = newObj.GetComponentInChildren<Button>();
             button.onClick.AddListener(() => DeleteItemFromPrefabListConfirm(prefabListName, item.ItemName));
 
-            // at the end adds it to the 
+            // at the end adds it to the
             ui_elements.Add(newObj);
         }
     }
@@ -335,7 +333,7 @@ public class MasterController : MonoBehaviour
             return;
         }
 
-        // Need to delete current Ui 
+        // Need to delete current Ui
         DeleteUiElements();
 
         // generate prefabs
@@ -358,7 +356,7 @@ public class MasterController : MonoBehaviour
             // Delete button
             buttons[2].onClick.AddListener(() => DeletePrefabListConfirm(prefab.PrefabListName));
 
-            // at the end adds it to the 
+            // at the end adds it to the
             ui_elements.Add(newObj);
         }
     }
