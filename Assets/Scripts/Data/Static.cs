@@ -26,10 +26,10 @@ namespace Assets.Scripts.Data
         private static Color32 Snow = new Color32(251, 245, 243, 255);
         private static Color32 CeladonGreen = new Color32(54, 130, 127, 255);
         private static Color32 Crimson = new Color32(214, 40, 57, 255);
-        private static Color32 BrightMaroon = new Color32(186, 50, 79, 255);
+        private static Color32 CornflowerBlue = new Color32(131, 144, 250, 255);
 
         private static Color32 Silver = new Color32(214, 40, 57, 255);
-        private static Color32 SpanishGray = new Color32(214, 40, 57, 255);
+        private static Color32 SpanishGray = new Color32(153, 153, 153, 255);
         private static Color32 Onyx = new Color32(61, 61, 61, 255);
         private static Color32 Cultured = new Color32(239, 239, 239, 255);
 
@@ -46,7 +46,7 @@ namespace Assets.Scripts.Data
 
 
         private static readonly Theme theme_1 = new Theme("Basic", EerieBlack, FieryRose, OrangeSoda, Honeydew, CGBlue);
-        private static readonly Theme theme_2 = new Theme("Reds", EerieBlack, Snow, CeladonGreen, Crimson, BrightMaroon);
+        private static readonly Theme theme_2 = new Theme("Contrast", EerieBlack, Snow, CeladonGreen, Crimson, CornflowerBlue);
         private static readonly Theme theme_3 = new Theme("Greys", EerieBlack, Silver, SpanishGray, Onyx, Cultured);
         private static readonly Theme theme_4 = new Theme("Funky", EerieBlack, Cinereous, CadetBlue, YellowCrayola, WildBlueYonder);
         private static readonly Theme theme_5 = new Theme("Night", RussianViolet, SpanishViolet, Glaucous, BlizzardBlue, Nyanza);
