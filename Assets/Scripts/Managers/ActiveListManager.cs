@@ -137,7 +137,7 @@ namespace Assets.Scripts.Managers
             var activeList = _activeLists.Find(s => s.PrefabListName == list);
 
             activeList.MarkItemUnticked(itemName);
-            return false;
+            return true;
         }
     }
 }

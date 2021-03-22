@@ -456,20 +456,19 @@ public class MasterController : MonoBehaviour
 
             if (!isCompleted)
             {
-                // todo: Change colour to red
+                
                 button.onClick.AddListener(() => MarkItemAsCompleted(activeListName, item.ItemName));
-                button.onClick.AddListener(() => image.color = Green);
-                button.onClick.AddListener(() => buttonText.text = "Set as incompleted");
+                image.color = Red;
+                buttonText.text = "Set as completed";
             }
-            else
+            else 
             {
-                // todo Change colour to green
-                button.onClick.AddListener(() => ActiveListManager.UnMarkItemAsUncompleted(activeListName, item.ItemName));
-                button.onClick.AddListener(() => image.color = Red);
-                // todo Change button text to "uncomplete"
-                button.onClick.AddListener(() => buttonText.text = "Set as completed");
                 
-                
+                button.onClick.AddListener(() => UnMarkItemAsUncompleted(activeListName, item.ItemName));
+                image.color = Green;
+                buttonText.text = "Set as uncompleted";
+
+
 
             }
 
@@ -486,7 +485,7 @@ public class MasterController : MonoBehaviour
 
         if(succeded)
         {
-            DisplayUi("ActiveLists", ActiveListItemName);
+            DisplayUi("ActiveListItems", ActiveListName);
         }
     }
 
@@ -496,7 +495,7 @@ public class MasterController : MonoBehaviour
         var succeeded = ActiveListManager.UnMarkItemAsUncompleted(ActiveListName, ActiveListItemName);
         if (succeeded)
         {
-            DisplayUi("ActiveLists", ActiveListItemName);
+            DisplayUi("ActiveListItems", ActiveListName);
         }
     }
 }
