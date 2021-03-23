@@ -578,9 +578,13 @@ MonoBehaviour:
   ui_texts: []
   ui_image_colour_1: []
   ui_image_colour_2: []
-  ui_image_colour_3: []
-  ui_image_colour_4: []
-  ui_image_colour_5: []
+  ui_image_colour_3:
+  - {fileID: 7198774258425245078}
+  - {fileID: 7372128682495237653}
+  ui_image_colour_4:
+  - {fileID: 356036075541614896}
+  ui_image_colour_5:
+  - {fileID: 9038520269559499859}
 --- !u!1 &2553551998815380302
 GameObject:
   m_ObjectHideFlags: 0
@@ -2618,14 +2622,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6755172d27a1be41839d18b876b636b, type: 3}
---- !u!1 &2385365597031832701 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6958904821685122220, guid: c6755172d27a1be41839d18b876b636b, type: 3}
-  m_PrefabInstance: {fileID: 4722158691381307601}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2385365597031832690 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6958904821685122211, guid: c6755172d27a1be41839d18b876b636b, type: 3}
+  m_PrefabInstance: {fileID: 4722158691381307601}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2385365597031832701 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6958904821685122220, guid: c6755172d27a1be41839d18b876b636b, type: 3}
   m_PrefabInstance: {fileID: 4722158691381307601}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &2385365597031832691 stripped
