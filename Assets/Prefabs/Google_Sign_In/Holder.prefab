@@ -45,7 +45,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemDropDown: {fileID: 0}
   MainPanel: {fileID: 0}
+  Panel_CreatePrefabList: {fileID: 0}
+  Panel_CreatePrefabListElement: {fileID: 0}
   PrefabPanelActiveList: {fileID: 1943319537592228152, guid: 31bd0c335ca0e204689d9f0cf8c1a9b9, type: 3}
   PrefabActiveListElement: {fileID: 1943319537592228152, guid: f1c49e0d072df1742a8cb1d3a877e50c, type: 3}
   PrefabPanelPrefabList: {fileID: 1943319537592228152, guid: 07a5e3ccc3cc6504daf8b3c5073bddce, type: 3}
   PrefabPrefabListElement: {fileID: 1943319537592228152, guid: 1586199c37f89c449b89b1702cb865bb, type: 3}
+  PrefabConfirmDelete: {fileID: 1276222932035717348, guid: f3fdf1026b0574c41b4b48d7c4b1710e, type: 3}
