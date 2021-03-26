@@ -315,15 +315,6 @@ public class MasterController : MonoBehaviour
             // Start button
             buttons[1].onClick.AddListener(() => AddActiveList(prefab.PrefabListName));
             buttons[1].onClick.AddListener(() => DisplayUi("ActiveLists"));
-
-
-            ////Looks for each Item in the prefablist and adds it to the activelist
-            //foreach (var item in items)
-            //{
-            //    buttons[1].onClick.AddListener(() => AddItemToActiveList(prefab.PrefabListName, item.ItemName));
-            //}
-
-            // Delete button
             buttons[2].onClick.AddListener(() => DeletePrefabList(prefab.PrefabListName));
 
             // at the end adds it to the
@@ -402,10 +393,8 @@ public class MasterController : MonoBehaviour
             // at the end adds it to the
             ui_elements.Add(newObj);
         }
-
-
-
     }
+
     //Adds an ActiveList
     public void AddActiveList(string prefabListName)
     {
@@ -420,14 +409,13 @@ public class MasterController : MonoBehaviour
             // update UI
             DisplayUi("ActiveLists");
         }
-
     }
+
+
     //Displays all the items within a ActiveList
     private void Display_Ui_ActiveList_Elements(string activeListName)
     {
         var items = ActiveListManager.GetActiveList(activeListName).GetItems();
-
-
         currentSelectedList = activeListName;
 
         if (items.Count == 0)
@@ -435,7 +423,6 @@ public class MasterController : MonoBehaviour
             Debug.Log("No items to show");
             return;
         }
-
         DeleteUiElements();
 
         foreach (var item in items)
@@ -443,7 +430,6 @@ public class MasterController : MonoBehaviour
             GameObject newObj;
 
             newObj = Instantiate(PrefabActiveListElement, ItemDropDown.transform);
-
             // text
             newObj.GetComponentInChildren<TextMeshProUGUI>().text = item.ItemName;
 
@@ -451,34 +437,25 @@ public class MasterController : MonoBehaviour
             var button = newObj.GetComponentInChildren<Button>();
             var image = newObj.GetComponentInChildren<Image>();
             var buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-
             var isCompleted = item.ItemTicked;
 
             if (!isCompleted)
-            {
-                
+            {                
                 button.onClick.AddListener(() => MarkItemAsCompleted(activeListName, item.ItemName));
                 image.color = Red;
                 buttonText.text = "Set as completed";
             }
             else 
-            {
-                
+            {          
                 button.onClick.AddListener(() => UnMarkItemAsUncompleted(activeListName, item.ItemName));
                 image.color = Green;
                 buttonText.text = "Set as uncompleted";
-
-
-
             }
-
-
             // at the end adds it to the
             ui_elements.Add(newObj);
         }
-
-
     }
+
     public void MarkItemAsCompleted(string ActiveListName, string ActiveListItemName)
     {
         var succeded = ActiveListManager.MarkItemasCompleted(ActiveListName, ActiveListItemName);

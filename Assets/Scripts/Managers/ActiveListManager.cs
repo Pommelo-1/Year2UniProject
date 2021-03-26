@@ -47,35 +47,6 @@ namespace Assets.Scripts.Managers
         }
 
 
-
-        public void AddActiveLists(List<PrefabList> activeLists)
-        {
-            _activeLists = activeLists;
-        }
-
-        public bool AddItemToActiveList(string activeListName, string itemName)
-        {
-            return _activeLists.Find(s => s.PrefabListName == activeListName).AddItem(itemName);
-        }
-
-        public bool ChangeActiveListName(string currentName, string newName)
-        {
-            var activeList = _activeLists.Find(s => s.PrefabListName == currentName);
-
-            if (activeList == null)
-            {
-                return false;
-            }
-
-            _activeLists.Remove(activeList);
-
-            activeList.PrefabListName = newName;
-
-            _activeLists.Add(activeList);
-
-            return true;
-        }
-
         public bool DeleteActiveList(string activeListName)
         {
             var activeList = _activeLists.Find(s => s.PrefabListName == activeListName);
@@ -91,20 +62,7 @@ namespace Assets.Scripts.Managers
             }
 
             _activeLists.Remove(activeList);
-
             return true;
-        }
-
-        public bool DeleteItemActiveList(string activeListName, string itemName)
-        {
-            var activeList = _activeLists.Find(s => s.PrefabListName == activeListName);
-
-            if (activeList == null)
-            {
-                return false;
-            }
-
-            return _activeLists.Find(s => s.PrefabListName == activeListName).DeleteItem(itemName);
         }
 
 
@@ -117,15 +75,16 @@ namespace Assets.Scripts.Managers
             return _activeLists.Find(s => s.PrefabListName == activeListName);
         }
 
+
         public List<PrefabList> GetActiveLists()
         {
             return _activeLists;
         }
 
+
         public bool MarkItemasCompleted(string list, string itemName)
         {
             var activeList = _activeLists.Find(s => s.PrefabListName == list);
-
             activeList.MarkItemTicked(itemName);
             return true;
 
@@ -135,7 +94,6 @@ namespace Assets.Scripts.Managers
         public bool UnMarkItemAsUncompleted(string list, string itemName)
         {
             var activeList = _activeLists.Find(s => s.PrefabListName == list);
-
             activeList.MarkItemUnticked(itemName);
             return true;
         }
