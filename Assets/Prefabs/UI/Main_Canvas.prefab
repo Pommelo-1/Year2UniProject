@@ -1724,6 +1724,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2073004620}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!1 &7372128682495237653
 GameObject:
   m_ObjectHideFlags: 0
@@ -1855,6 +1867,30 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2073004620}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 2385365597031832691}
+        m_TargetAssemblyTypeName: MasterController, Assembly-CSharp
+        m_MethodName: DisplayuiActiveLists
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!1 &8125811126590860832
 GameObject:
@@ -2572,6 +2608,38 @@ PrefabInstance:
       propertyPath: themeDropdown
       value: 
       objectReference: {fileID: 4535685893664036376}
+    - target: {fileID: 6958904821685122210, guid: c6755172d27a1be41839d18b876b636b, type: 3}
+      propertyPath: Green.r
+      value: 0.09066844
+      objectReference: {fileID: 0}
+    - target: {fileID: 6958904821685122210, guid: c6755172d27a1be41839d18b876b636b, type: 3}
+      propertyPath: Green.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6958904821685122210, guid: c6755172d27a1be41839d18b876b636b, type: 3}
+      propertyPath: Green.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6958904821685122210, guid: c6755172d27a1be41839d18b876b636b, type: 3}
+      propertyPath: Red.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6958904821685122210, guid: c6755172d27a1be41839d18b876b636b, type: 3}
+      propertyPath: Red.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6958904821685122210, guid: c6755172d27a1be41839d18b876b636b, type: 3}
+      propertyPath: Red.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6958904821685122210, guid: c6755172d27a1be41839d18b876b636b, type: 3}
+      propertyPath: Green.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6958904821685122210, guid: c6755172d27a1be41839d18b876b636b, type: 3}
+      propertyPath: Red.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6958904821685122211, guid: c6755172d27a1be41839d18b876b636b, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -2622,14 +2690,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6755172d27a1be41839d18b876b636b, type: 3}
---- !u!4 &2385365597031832690 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6958904821685122211, guid: c6755172d27a1be41839d18b876b636b, type: 3}
-  m_PrefabInstance: {fileID: 4722158691381307601}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2385365597031832701 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6958904821685122220, guid: c6755172d27a1be41839d18b876b636b, type: 3}
+  m_PrefabInstance: {fileID: 4722158691381307601}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2385365597031832690 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6958904821685122211, guid: c6755172d27a1be41839d18b876b636b, type: 3}
   m_PrefabInstance: {fileID: 4722158691381307601}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &2385365597031832691 stripped

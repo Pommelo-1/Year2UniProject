@@ -1,4 +1,4 @@
-﻿using Assets.Data;
+﻿using Assets.Scripts;
 using Assets.Scripts.Data;
 using Assets.Scripts.Interface;
 using Assets.Scripts.Managers;
@@ -31,9 +31,19 @@ public class MasterController : MonoBehaviour
 
     // Managers
     PrefabListManager PrefabListManager = new PrefabListManager(Static.debug);
-    ISavingManager savingManager;
+    ActiveListManager ActiveListManager = new ActiveListManager(Static.debug);
 
-    // First thing called after running it 
+    ISavingManager savingManager;
+    public TMP_Dropdown themeDropdown;
+
+    UI_Element_Holder ui_Element_Holder;
+    ThemeManager themeManager = new ThemeManager(Static.debug);
+
+    //Colors
+    public Color Green;
+    public Color Red;
+
+    // First thing called after running it
     public void Awake()
     {
         // Loads data
@@ -47,9 +57,47 @@ public class MasterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Makes connection to the other script responsible for applying theme
+        ui_Element_Holder = GameObject.Find("Holder").GetComponent<UI_Element_Holder>();
 
+        // Applies theme to all of the elements on the screen
+        ui_Element_Holder.SetColours(themeManager.ReturnCurrentTheme());
+
+        // adds the themes to the dropdown
+        InstantiateThemeChooser();
+    }
+    public void OnDropdownThemeChange()
+    {
+        var menuIndex = themeDropdown.value;
+        var menuOptions = themeDropdown.options;
+        string dropdownThemeName = menuOptions[menuIndex].text;
+        if (_debug)
+        {
+            Debug.Log($"value in dropdown theme changed to {dropdownThemeName}");
+        }
+
+        themeManager.UpdateCurrentTheme(dropdownThemeName);
+
+        // Applies the new theme
+        ui_Element_Holder.SetColours(themeManager.ReturnCurrentTheme());
+        DisplayUi_PrefabLists();
+
+        SaveData();
     }
 
+    private void InstantiateThemeChooser()
+    {
+        List<string> themeNames = new List<string>();
+        foreach (Theme theme in themeManager.ReturnThemes())
+        {
+            themeNames.Add(theme.Name);
+        }
+
+        // Clears options for dropdown and then add mine
+        themeDropdown.ClearOptions();
+
+        themeDropdown.AddOptions(themeNames);
+    }
     public void test()
     {
         Debug.Log("calling test");
@@ -86,7 +134,7 @@ public class MasterController : MonoBehaviour
     private void LoadData()
     {
         //TODO: need to implement loading data here
-        var LoadData = savingManager.LoadData("");
+        //var LoadData = savingManager.LoadData("");
     }
 
     private void SaveData()
@@ -262,11 +310,11 @@ public class MasterController : MonoBehaviour
         }
         else if (mode == "ActiveLists")
         {
-            Debug.LogError("function not created yet");
+            Display_ActiveLists();
         }
         else if (mode == "ActiveListItems")
         {
-            Debug.LogError("function not created yet");
+            Display_Ui_ActiveList_Elements(name);
         }
         else
         {
@@ -302,7 +350,7 @@ public class MasterController : MonoBehaviour
             var button = newObj.GetComponentInChildren<Button>();
             button.onClick.AddListener(() => DeleteItemFromPrefabListConfirm(prefabListName, item.ItemName));
 
-            // at the end adds it to the 
+            // at the end adds it to the
             ui_elements.Add(newObj);
         }
     }
@@ -318,7 +366,7 @@ public class MasterController : MonoBehaviour
             return;
         }
 
-        // Need to delete current Ui 
+        // Need to delete current Ui
         DeleteUiElements();
 
         // generate prefabs
@@ -336,12 +384,13 @@ public class MasterController : MonoBehaviour
             buttons[0].onClick.AddListener(() => DisplayUi("PrefabListItems", prefab.PrefabListName));
 
             // Start button
-            //TODO: Logic for starting the active List
+            buttons[1].onClick.AddListener(() => AddActiveList(prefab.PrefabListName));
+            buttons[1].onClick.AddListener(() => DisplayUi("ActiveLists"));
 
             // Delete button
             buttons[2].onClick.AddListener(() => DeletePrefabListConfirm(prefab.PrefabListName));
 
-            // at the end adds it to the 
+            // at the end adds it to the
             ui_elements.Add(newObj);
         }
     }
@@ -375,5 +424,139 @@ public class MasterController : MonoBehaviour
     public void OpenPrivacyPolicyWebpage()
     {
         Application.OpenURL("https://sites.google.com/view/mgameskprivacypolicy/home?authuser=2");
+    }
+
+    //Active List Code
+    public void DisplayuiActiveLists()
+    {
+        DisplayUi("ActiveLists");
+    }
+
+    private void DeleteActiveList(string prefabName)
+    {
+        var success = ActiveListManager.DeleteActiveList(prefabName);
+
+        if (success)
+        {
+            SaveData();
+
+            DisplayUi("ActiveLists");
+        }
+    }
+
+    //Displays all the ActiveLists
+    private void Display_ActiveLists()
+    {
+        // check if there are any prefabs
+        var activeLists = ActiveListManager.GetActiveLists();
+
+        if (activeLists.Count == 0)
+        {
+            Debug.Log("No activeLists to display");
+            return;
+        }
+
+        // Need to delete current Ui
+        DeleteUiElements();
+
+        // generate prefabs
+        foreach (var prefab in activeLists)
+        {
+            GameObject newObj; // Create GameObject instance
+
+            newObj = Instantiate(PrefabPanelActiveList, ItemDropDown.transform);
+
+            // Find buttons located on this prefab
+            var buttons = newObj.GetComponentsInChildren<Button>();
+
+            // Delete button, View active list items
+            buttons[0].onClick.AddListener(() => DeleteActiveList(prefab.PrefabListName));
+            buttons[1].GetComponentInChildren<TextMeshProUGUI>().text = prefab.PrefabListName;
+            buttons[1].onClick.AddListener(() => Display_Ui_ActiveList_Elements(prefab.PrefabListName));
+
+            // at the end adds it to the
+            ui_elements.Add(newObj);
+        }
+    }
+
+    //Adds an ActiveList
+    public void AddActiveList(string prefabListName)
+    {
+        var prefabList = PrefabListManager.GetPrefabList(prefabListName);
+
+        var success = ActiveListManager.AddActiveList(prefabList);
+
+        if (success)
+        {
+            SaveData();
+
+            // update UI
+            DisplayUi("ActiveLists");
+        }
+    }
+
+
+    //Displays all the items within a ActiveList
+    private void Display_Ui_ActiveList_Elements(string activeListName)
+    {
+        var items = ActiveListManager.GetActiveList(activeListName).GetItems();
+        currentSelectedList = activeListName;
+
+        if (items.Count == 0)
+        {
+            Debug.Log("No items to show");
+            return;
+        }
+        DeleteUiElements();
+
+        foreach (var item in items)
+        {
+            GameObject newObj;
+
+            newObj = Instantiate(PrefabActiveListElement, ItemDropDown.transform);
+            // text
+            newObj.GetComponentInChildren<TextMeshProUGUI>().text = item.ItemName;
+
+            // delete button
+            var button = newObj.GetComponentInChildren<Button>();
+            var image = newObj.GetComponentInChildren<Image>();
+            var buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
+            var isCompleted = item.ItemTicked;
+
+            if (!isCompleted)
+            {
+                button.onClick.AddListener(() => MarkItemAsCompleted(activeListName, item.ItemName));
+                image.color = Red;
+                buttonText.text = "Set as completed";
+            }
+            else
+            {
+                button.onClick.AddListener(() => UnMarkItemAsUncompleted(activeListName, item.ItemName));
+                image.color = Green;
+                buttonText.text = "Set as uncompleted";
+            }
+            // at the end adds it to the
+            ui_elements.Add(newObj);
+        }
+    }
+
+    public void MarkItemAsCompleted(string ActiveListName, string ActiveListItemName)
+    {
+        var succeded = ActiveListManager.MarkItemasCompleted(ActiveListName, ActiveListItemName);
+
+        if (succeded)
+        {
+            DisplayUi("ActiveListItems", ActiveListName);
+        }
+    }
+
+    // TODO: make the same for unmark it
+    public void UnMarkItemAsUncompleted(string ActiveListName, string ActiveListItemName)
+    {
+        var succeeded = ActiveListManager.UnMarkItemAsUncompleted(ActiveListName, ActiveListItemName);
+        if (succeeded)
+        {
+            DisplayUi("ActiveListItems", ActiveListName);
+        }
     }
 }
