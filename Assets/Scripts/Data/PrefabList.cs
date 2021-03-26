@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Data
 {
-    public class PrefabList : IPrefabList
+    public class PrefabList : IPrefabList, ICloneable
     {
         // Prefab List Name
         private string prefabListName;
@@ -45,7 +45,14 @@ namespace Assets.Scripts.Data
             PrefabListDateCreated = DateTime.Now;
             PrefabListLastEdited = PrefabListDateCreated;
         }
+        #region ICloneable Members
 
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
+        #endregion
         /// <summary>
         /// Used to get all the list of items from the Prefab
         /// </summary>
