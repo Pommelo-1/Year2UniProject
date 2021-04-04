@@ -49,9 +49,56 @@ public class MasterController : MonoBehaviour
         // Loads data
         LoadData();
 
+        test();
+
         //test();
         // Display Ui
         DisplayUi("PrefabLists");
+    }
+
+    public void test()
+    {
+
+        var PrefabList = new PrefabList("Traveling Abroad");
+        PrefabList.AddItem("passport");
+        PrefabList.AddItem("backpack");
+
+
+        foreach (var item in PrefabList.GetItems())
+        {
+            Debug.Log($"Inside the {PrefabList.PrefabListName} there is: {item.ItemName}");
+        }
+
+
+
+        //Debug.Log("calling test");
+        //AddPrefabList("test1");
+        //AddPrefabList("test2");
+        //AddPrefabList("test3");
+        //AddItemToPrefabList("test1", "mobile phone");
+        //AddItemToPrefabList("test1", "bike");
+
+
+        //Debug.Log("current items in test1 are");
+        //var testItems = PrefabListManager.GetPrefabList("test1").GetItems();
+        //foreach (var t in testItems)
+        //{
+        //    Debug.Log(t.ItemName);
+        //}
+
+        //// Change name
+        //ChangePrefabListName("test1", "test2");
+        //var testPerfab = PrefabListManager.GetPrefabList("test2");
+
+        ////DeletePrefabList("test1");
+        ////DeletePrefabList("test2");
+
+        //AddPrefabList("test3");
+
+        //AddItemToPrefabList("test3", "item4");
+        //ChangeItemNameInPrefabList("test3", "item4", "item5");
+
+        //DeleteItemFromPrefabListConfirm("test3", "item5");
     }
 
     // Start is called before the first frame update
@@ -98,7 +145,7 @@ public class MasterController : MonoBehaviour
 
         themeDropdown.AddOptions(themeNames);
     }
-    public void test()
+    public void test_2()
     {
         Debug.Log("calling test");
         AddPrefabList("test1");
