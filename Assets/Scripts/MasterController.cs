@@ -32,6 +32,7 @@ public class MasterController : MonoBehaviour
     // Managers
     PrefabListManager PrefabListManager = new PrefabListManager(Static.debug);
     ActiveListManager ActiveListManager = new ActiveListManager(Static.debug);
+    BinManager BinManager = new BinManager(Static.debug);
 
     ISavingManager savingManager;
     public TMP_Dropdown themeDropdown;
@@ -231,13 +232,16 @@ public class MasterController : MonoBehaviour
 
     private void DeletePrefabList(GameObject gameObject, string prefabName)
     {
+        var prefabList = PrefabListManager.GetPrefabList(prefabName);
+        BinManager.AddPrefabList(prefabList);
+        BinManager.DisplayPrefabListBin();
         var success = PrefabListManager.DeletePrefabList(prefabName);
 
         if (success)
         {
             SaveData();
-
         }
+
         // update UI
         DisplayUi("PrefabLists");
         DeleteItSelf(gameObject);
@@ -431,11 +435,11 @@ public class MasterController : MonoBehaviour
             buttons[0].onClick.AddListener(() => DisplayUi("PrefabListItems", prefab.PrefabListName));
 
             // Start button
-            buttons[1].onClick.AddListener(() => AddActiveList(prefab.PrefabListName));
-            buttons[1].onClick.AddListener(() => DisplayUi("ActiveLists"));
+            buttons[2].onClick.AddListener(() => AddActiveList(prefab.PrefabListName));
+            buttons[2].onClick.AddListener(() => DisplayUi("ActiveLists"));
 
             // Delete button
-            buttons[2].onClick.AddListener(() => DeletePrefabListConfirm(prefab.PrefabListName));
+            buttons[1].onClick.AddListener(() => DeletePrefabListConfirm(prefab.PrefabListName));
 
             var text = newObj.GetComponentsInChildren<TextMeshProUGUI>()[3].text = prefab.PrefabListDescription;
 
