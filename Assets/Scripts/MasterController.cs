@@ -437,16 +437,11 @@ public class MasterController : MonoBehaviour
             // Delete button
             buttons[2].onClick.AddListener(() => DeletePrefabListConfirm(prefab.PrefabListName));
 
+            var text = newObj.GetComponentsInChildren<TextMeshProUGUI>()[3].text = prefab.PrefabListDescription;
+
             // at the end adds it to the
             ui_elements.Add(newObj);
         }
-    }
-
-    public void AddPrefabList(GameObject InputBox)
-    {
-        var PrefabListName = InputBox.GetComponent<TextMeshProUGUI>().text;
-
-        AddPrefabList(PrefabListName);
     }
 
     public void ChangePrefabListName(GameObject Text, GameObject InputBox)
@@ -605,5 +600,28 @@ public class MasterController : MonoBehaviour
         {
             DisplayUi("ActiveListItems", ActiveListName);
         }
+    }
+
+    private void AddDescriptionToTheList(string PrefabLists, string Description)
+    {
+        var success = PrefabListManager.AddDescription(PrefabLists, Description);
+
+        if(success)
+        {
+            DisplayUi("PrefabLists");
+        }
+    }
+
+    public void AddPrefabList(/*GameObject gameObject*/)
+    {
+        var PrefabListName = GameObject.FindGameObjectWithTag("input_1").GetComponent<TextMeshProUGUI>().text;
+
+        var Description = GameObject.FindGameObjectWithTag("input_2").GetComponent<TextMeshProUGUI>().text;
+
+        // creates a prefab
+        AddPrefabList(PrefabListName);
+
+        // adds the description to the prefab
+        AddDescriptionToTheList(PrefabListName, Description);
     }
 }

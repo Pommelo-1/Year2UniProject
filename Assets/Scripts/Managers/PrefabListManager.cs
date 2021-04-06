@@ -191,5 +191,16 @@ namespace Assets.Scripts.Managers
 
             return _prefabLists.Find(s => s.PrefabListName == prefabListName).DeleteItem(itemName);
         }
+
+        public bool AddDescription(string prefabListName, string description)
+        {
+            if(description.Length == 1)
+            {
+                return false;
+            }
+
+            _prefabLists.Find(s => s.PrefabListName == prefabListName).PrefabListDescription = description;
+            return true;
+        }
     }
 }
