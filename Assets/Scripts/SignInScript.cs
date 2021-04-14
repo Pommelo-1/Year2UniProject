@@ -10,6 +10,8 @@ public class SignInScript : MonoBehaviour
 {
     public Image img;
     public Text DisplayName;
+    public Sprite black_sprite;
+    public MasterController masterController;
     
     
     
@@ -18,7 +20,7 @@ public class SignInScript : MonoBehaviour
     {
         //PlayGamesPlatform.DebugLogEnabled = true;
 
-        //PlayGamesPlatform.Activate();
+        PlayGamesPlatform.Activate();
     }
 
     public void LogIn()
@@ -42,8 +44,10 @@ public class SignInScript : MonoBehaviour
 
     public void LogOut()
     {
+        DisplayName.text = "nickname";
+        img.sprite = black_sprite;
+        ((PlayGamesPlatform)Social.Active).SignOut();
         
-        //((PlayGamesPlatform)Social.Active).SignOut();
         
 
     }
@@ -65,6 +69,26 @@ public class SignInScript : MonoBehaviour
     public void OpenAchievements()
     {
         Social.ShowAchievementsUI();
+    }
+
+    public void CheckScore()
+    {
+        if (Social.localUser.authenticated)
+        {
+            Social.ReportScore(masterController.score, "CgkI-ubXyaUJEAIQAw", success => { });
+            if (masterController.score == 5)
+            {
+                UnlockAchievement01();
+            }
+        }
+    }
+
+    public void UnlockAchievement01()
+    {
+        if (Social.localUser.authenticated) {
+            Social.ReportProgress("CgkI-ubXyaUJEAIQAw", 100f, success => { });
+        }
+    
     }
 
 

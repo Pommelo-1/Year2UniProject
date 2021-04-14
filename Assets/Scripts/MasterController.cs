@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class MasterController : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class MasterController : MonoBehaviour
     PrefabListManager PrefabListManager = new PrefabListManager(Static.debug);
     ActiveListManager ActiveListManager = new ActiveListManager(Static.debug);
     BinManager BinManager = new BinManager(Static.debug);
+    public SignInScript signInScript;
 
     ISavingManager savingManager;
     public TMP_Dropdown themeDropdown;
@@ -43,6 +45,9 @@ public class MasterController : MonoBehaviour
     //Colors
     public Color Green;
     public Color Red;
+
+    //Achievement variables
+    public int score;
 
     // First thing called after running it
     public void Awake()
@@ -538,6 +543,18 @@ public class MasterController : MonoBehaviour
 
             // update UI
             DisplayUi("ActiveLists");
+
+            try
+            {
+                score += 1;
+                signInScript.CheckScore();
+            }
+            catch (Exception exception)
+            {
+                Debug.Log(exception);
+            }
+            
+
         }
     }
 

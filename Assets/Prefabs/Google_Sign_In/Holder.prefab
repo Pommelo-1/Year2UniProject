@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6958904821685122211}
-  - component: {fileID: 6958904821685122210}
+  - component: {fileID: 7531892993370215303}
+  - component: {fileID: 7188763194847182808}
   m_Layer: 0
   m_Name: Holder
   m_TagString: Untagged
@@ -31,7 +32,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6958904821685122210
+--- !u!114 &7531892993370215303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6958904821685122220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d27b5b722f03a304ab4a90d3895df791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  img: {fileID: 0}
+  DisplayName: {fileID: 0}
+  black_sprite: {fileID: 0}
+  masterController: {fileID: 0}
+--- !u!114 &7188763194847182808
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -47,8 +64,13 @@ MonoBehaviour:
   MainPanel: {fileID: 0}
   Panel_CreatePrefabList: {fileID: 0}
   Panel_CreatePrefabListElement: {fileID: 0}
-  PrefabPanelActiveList: {fileID: 1943319537592228152, guid: 31bd0c335ca0e204689d9f0cf8c1a9b9, type: 3}
-  PrefabActiveListElement: {fileID: 1943319537592228152, guid: f1c49e0d072df1742a8cb1d3a877e50c, type: 3}
-  PrefabPanelPrefabList: {fileID: 1943319537592228152, guid: 07a5e3ccc3cc6504daf8b3c5073bddce, type: 3}
-  PrefabPrefabListElement: {fileID: 1943319537592228152, guid: 1586199c37f89c449b89b1702cb865bb, type: 3}
-  PrefabConfirmDelete: {fileID: 1276222932035717348, guid: f3fdf1026b0574c41b4b48d7c4b1710e, type: 3}
+  PrefabPanelActiveList: {fileID: 0}
+  PrefabActiveListElement: {fileID: 0}
+  PrefabPanelPrefabList: {fileID: 0}
+  PrefabPrefabListElement: {fileID: 0}
+  PrefabConfirmDelete: {fileID: 0}
+  signInScript: {fileID: 0}
+  themeDropdown: {fileID: 0}
+  Green: {r: 0, g: 0, b: 0, a: 0}
+  Red: {r: 0, g: 0, b: 0, a: 0}
+  score: 0
